@@ -1,2 +1,2 @@
 # recommendation
-测试LFM算法的模型
+LFM算法模型
