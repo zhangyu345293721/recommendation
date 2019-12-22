@@ -1,2 +1,2 @@
 # recommendation
- LFM算法模型
+- LFM算法模型
