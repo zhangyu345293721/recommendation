@@ -1,3 +1,3 @@
 # recommendation
 - LFM算法模型
-- object tracking 物体追踪
+- object tracking  物体追踪
