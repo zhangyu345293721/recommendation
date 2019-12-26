@@ -12,21 +12,21 @@ import math
 import operator
 
 
-def base_contribute_score():
+def base_contribute_score() -> int:
     """
     item cf base sim contribution score by user
     """
     return 1
 
 
-def update_one_contribute_score(user_total_click_num):
+def update_one_contribute_score(user_total_click_num) -> float:
     """
     item cf update sim contribution score by user
     """
     return 1 / math.log10(1 + user_total_click_num)
 
 
-def update_two_contribute_score(click_time_one, click_time_two):
+def update_two_contribute_score(click_time_one: int, click_time_two: int) -> float:
     """
     item cf update two sim contribution score by user
     """

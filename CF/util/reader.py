@@ -1,9 +1,11 @@
-#-*-coding:utf8-*-
+# -*-coding:utf8-*-
 """
 author:zhangyu
 """
 import os
-def get_user_click(rating_file):
+
+
+def get_user_click(rating_file) -> dict:
     """
     get user click list
     Args:
@@ -12,7 +14,7 @@ def get_user_click(rating_file):
         dict, key:userid ,value:[itemid1, itemid2]
     """
     if not os.path.exists(rating_file):
-        return {},{}
+        return {}, {}
     fp = open(rating_file)
     num = 0
     user_click = {}
@@ -25,8 +27,8 @@ def get_user_click(rating_file):
         if len(item) < 4:
             continue
         [userid, itemid, rating, timestamp] = item
-        if  userid + "_" + itemid not in user_click_time:
-            user_click_time [userid + "_" + itemid] = int(timestamp)
+        if userid + "_" + itemid not in user_click_time:
+            user_click_time[userid + "_" + itemid] = int(timestamp)
         if float(rating) < 3.0:
             continue
         if userid not in user_click:
@@ -36,7 +38,7 @@ def get_user_click(rating_file):
     return user_click, user_click_time
 
 
-def  get_item_info(item_file):
+def get_item_info(item_file) -> dict:
     """
     get item info[title, genres]
     Args:
@@ -69,9 +71,8 @@ def  get_item_info(item_file):
 
 
 if __name__ == "__main__":
-    #user_click = get_user_click("../data/ratings.txt")
-    #print len(user_click)
-    #print user_click["1"]
-    item_info= get_item_info("../data/movies.txt")
+    # user_click = get_user_click("../data/ratings.txt")
+    # print len(user_click)
+    # print user_click["1"]
+    item_info = get_item_info("../data/movies.txt")
     print(item_info["11"])
-
