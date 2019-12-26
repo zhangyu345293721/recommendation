@@ -1,7 +1,6 @@
 #-*-coding:utf8-*-
 """
-author:david
-date:2018****
+author:zhangyu
 """
 import os
 def get_user_click(rating_file):
@@ -74,5 +73,5 @@ if __name__ == "__main__":
     #print len(user_click)
     #print user_click["1"]
     item_info= get_item_info("../data/movies.txt")
-    print item_info["11"]
+    print(item_info["11"])
 
