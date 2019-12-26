@@ -80,8 +80,7 @@ def get_auc(predict_list, test_label):
             total_pos_index += count
         count += 1
     auc_score = (total_pos_index - (pos_num) * (pos_num + 1) / 2) / (pos_num * neg_num)
-    print
-    "auc:%.5f" % (auc_score)
+    print("auc:%.5f" % (auc_score))
 
 
 def get_accuary(predict_list, test_label):
@@ -102,8 +101,7 @@ def get_accuary(predict_list, test_label):
             right_num += 1
     total_num = len(predict_list)
     accuary_score = right_num / total_num
-    print
-    "accuary:%.5f" % (accuary_score)
+    print("accuary:%.5f" % (accuary_score))
 
 
 def run_check_core(test_feature, test_label, model, score_func):
@@ -176,10 +174,8 @@ if __name__ == "__main__":
         feature_num_file = sys.argv[4]
         run_check_lr_gbdt(test_file, tree_mix_model, lr_coef_mix_model, feature_num_file)
     else:
-        print
-        "check gbdt model usage: python xx.py test_file  tree_model feature_num_file"
-        print
-        "check lr_gbdt model usage: python xx.py test_file tree_mix_model lr_coef_mix_model feature_num_file"
+        print("check gbdt model usage: python xx.py test_file  tree_model feature_num_file")
+        print("check lr_gbdt model usage: python xx.py test_file tree_mix_model lr_coef_mix_model feature_num_file")
         sys.exit()
     """
     run_check("../data/test_file","../data/xgb.model", "../data/feature_num")
