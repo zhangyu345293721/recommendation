@@ -1,7 +1,6 @@
-#-*-coding:utf8-*-
+# -*-coding:utf8-*-
 """
-author:david
-date:2018****
+author:zhangyu
 produce item sim file
 """
 
@@ -58,11 +57,11 @@ def cal_item_sim(item_vec, itemid, output_file):
         if fenmu == 0:
             score[tmp_itemid] = 0
         else:
-            score[tmp_itemid] =  round(np.dot(fix_item_vec, tmp_itemvec)/fenmu, 3)
+            score[tmp_itemid] = round(np.dot(fix_item_vec, tmp_itemvec) / fenmu, 3)
     fw = open(output_file, "w+")
     out_str = itemid + "\t"
     tmp_list = []
-    for zuhe in sorted(score.iteritems(), key = operator.itemgetter(1), reverse = True)[:topk]:
+    for zuhe in sorted(score.iteritems(), key=operator.itemgetter(1), reverse=True)[:topk]:
         tmp_list.append(zuhe[0] + "_" + str(zuhe[1]))
     out_str += ";".join(tmp_list)
     fw.write(out_str + "\n")
@@ -76,10 +75,10 @@ def run_main(input_file, output_file):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print "usage: python xx.py inputfile outputfile"
+        print("usage: python xx.py inputfile outputfile")
         sys.exit()
     else:
         inputfile = sys.argv[1]
         outputfile = sys.argv[2]
         run_main(inputfile, outputfile)
-        #run_main("../data/item_vec.txt", "../data/sim_result.txt")
+        # run_main("../data/item_vec.txt", "../data/sim_result.txt")

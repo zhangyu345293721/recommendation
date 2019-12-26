@@ -9,8 +9,9 @@ import numpy as np
 from sklearn.externals import joblib
 import math
 import sys
+
 sys.path.append("../")
-import util.get_feature_num as gf
+import LR.util.get_feature_num as gf
 
 
 def get_test_data(test_file, feature_num_file):
@@ -22,9 +23,9 @@ def get_test_data(test_file, feature_num_file):
          two np array: test _feature, test_label
     """
     total_feature_num = gf.get_feature_num(feature_num_file)
-    test_label = np.genfromtxt(test_file, dtype= np.float32, delimiter=",", usecols= -1)
+    test_label = np.genfromtxt(test_file, dtype=np.float32, delimiter=",", usecols=-1)
     feature_list = range(total_feature_num)
-    test_feature = np.genfromtxt(test_file, dtype= np.float32, delimiter=",", usecols= feature_list)
+    test_feature = np.genfromtxt(test_file, dtype=np.float32, delimiter=",", usecols=feature_list)
     return test_feature, test_label
 
 
@@ -51,7 +52,7 @@ def sigmoid(x):
     """
     sigmoid function
     """
-    return 1/(1+math.exp(-x))
+    return 1 / (1 + math.exp(-x))
 
 
 def get_auc(predict_list, test_label):
@@ -66,7 +67,7 @@ def get_auc(predict_list, test_label):
         predict_score = predict_list[index]
         label = test_label[index]
         total_list.append((label, predict_score))
-    sorted_total_list = sorted(total_list, key = lambda ele:ele[1])
+    sorted_total_list = sorted(total_list, key=lambda ele: ele[1])
     neg_num = 0
     pos_num = 0
     count = 1
@@ -79,8 +80,9 @@ def get_auc(predict_list, test_label):
             pos_num += 1
             total_pos_index += count
         count += 1
-    auc_score = (total_pos_index - (pos_num)*(pos_num + 1)/2) / (pos_num*neg_num)
-    print "auc:%.5f" %(auc_score)
+    auc_score = (total_pos_index - (pos_num) * (pos_num + 1) / 2) / (pos_num * neg_num)
+    print
+    "auc:%.5f" % (auc_score)
 
 
 def get_accuary(predict_list, test_label):
@@ -100,8 +102,8 @@ def get_accuary(predict_list, test_label):
         if predict_label == test_label[index]:
             right_num += 1
     total_num = len(predict_list)
-    accuary_score = right_num/total_num
-    print "accuary:%.5f" %(accuary_score)
+    accuary_score = right_num / total_num
+    print("accuary:%.5f" % (accuary_score))
 
 
 def run_check_core(test_feature, test_label, model, score_func):
@@ -134,7 +136,8 @@ def run_check(test_file, lr_coef_file, lr_model_file, feature_num_file):
 
 if __name__ == "__main__":
     if len(sys.argv) < 5:
-        print "usage: python xx.py test_file coef_file model_file feature_num_file"
+        print
+        "usage: python xx.py test_file coef_file model_file feature_num_file"
         sys.exit()
     else:
         test_file = sys.argv[1]
@@ -142,5 +145,4 @@ if __name__ == "__main__":
         model_file = sys.argv[3]
         feature_num_file = sys.argv[4]
         run_check(test_file, coef_file, model_file, feature_num_file)
-        #run_check("../data/test_file", "../data/lr_coef", "../data/lr_model_file", "../data/feature_num")
-
+        # run_check("../data/test_file", "../data/lr_coef", "../data/lr_model_file", "../data/feature_num")

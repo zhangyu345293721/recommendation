@@ -1,12 +1,12 @@
 # -*-coding:utf8-*-
 """
-author:david
-date:2018****
+author:zhangyu
 train wd model
 """
 from __future__ import division
 import tensorflow as tf
 import os
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
@@ -38,7 +38,8 @@ def get_feature_column():
         tf.feature_column.crossed_column([gain_bucket, loss_bucket], hash_bucket_size=16)
     ]
 
-    base_columns = [work_class, education, marital_status, occupation, realationship, age_bucket, gain_bucket, loss_bucket,]
+    base_columns = [work_class, education, marital_status, occupation, realationship, age_bucket, gain_bucket,
+                    loss_bucket, ]
     wide_columns = base_columns + cross_columns
     deep_columns = [
         age,
@@ -65,12 +66,12 @@ def build_model_estimator(wide_column, deep_column, model_folder):
         model_es, serving_input_fn
     """
     model_es = tf.estimator.DNNLinearCombinedClassifier(
-        model_dir= model_folder,
-        linear_feature_columns= wide_column,
+        model_dir=model_folder,
+        linear_feature_columns=wide_column,
         linear_optimizer=tf.train.FtrlOptimizer(0.1, l2_regularization_strength=1.0),
-        dnn_feature_columns= deep_column,
-        dnn_optimizer= tf.train.ProximalAdagradOptimizer(learning_rate=0.1, l1_regularization_strength=0.001,
-                                                         l2_regularization_strength=0.001),
+        dnn_feature_columns=deep_column,
+        dnn_optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.1, l1_regularization_strength=0.001,
+                                                        l2_regularization_strength=0.001),
         dnn_hidden_units=[128, 64, 32, 16]
     )
     feature_column = wide_column + deep_column
@@ -91,14 +92,14 @@ def input_fn(data_file, re_time, shuffle, batch_num, predict):
         train_feature, train_label or test_feature
     """
     _CSV_COLUMN_DEFAULTS = [[0], [''], [0], [''], [0], [''], [''], [''], [''], [''],
-                        [0], [0], [0], [''], ['']]
+                            [0], [0], [0], [''], ['']]
 
     _CSV_COLUMNS = [
         'age', 'workclass', 'fnlwgt', 'education', 'education-num',
         'marital-status', 'occupation', 'relationship', 'race', 'gender',
         'capital-gain', 'capital-loss', 'hours-per-week', 'native-country',
         'label'
-     ]
+    ]
 
     def parse_csv(value):
         columns = tf.decode_csv(value, record_defaults=_CSV_COLUMN_DEFAULTS)
@@ -113,7 +114,8 @@ def input_fn(data_file, re_time, shuffle, batch_num, predict):
         labels = features.pop('label')
         return features
 
-    data_set = tf.data.TextLineDataset(data_file).skip(1).filter(lambda line: tf.not_equal(tf.strings.regex_full_match(line, ".*\?.*"),True))
+    data_set = tf.data.TextLineDataset(data_file).skip(1).filter(
+        lambda line: tf.not_equal(tf.strings.regex_full_match(line, ".*\?.*"), True))
     if shuffle:
         data_set = data_set.shuffle(buffer_size=30000)
     if predict:
@@ -138,7 +140,7 @@ def train_wd_model(model_es, train_file, test_file, model_export_folder, serving
     total_run = 6
     for index in range(total_run):
         model_es.train(input_fn=lambda: input_fn(train_file, 10, True, 100, False))
-        print model_es.evaluate(input_fn=lambda:input_fn(test_file, 1, False, 100, False))
+        print(model_es.evaluate(input_fn=lambda: input_fn(test_file, 1, False, 100, False)))
     model_es.export_savedmodel(model_export_folder, serving_input_fn)
 
 
@@ -154,7 +156,7 @@ def get_auc(predict_list, test_label):
         predict_score = predict_list[index]
         label = test_label[index]
         total_list.append((label, predict_score))
-    sorted_total_list = sorted(total_list, key = lambda ele:ele[1])
+    sorted_total_list = sorted(total_list, key=lambda ele: ele[1])
     neg_num = 0
     pos_num = 0
     count = 1
@@ -167,8 +169,8 @@ def get_auc(predict_list, test_label):
             pos_num += 1
             total_pos_index += count
         count += 1
-    auc_score = (total_pos_index - (pos_num)*(pos_num + 1)/2) / (pos_num*neg_num)
-    print "auc:%.5f" %(auc_score)
+    auc_score = (total_pos_index - (pos_num) * (pos_num + 1) / 2) / (pos_num * neg_num)
+    print("auc:%.5f" % (auc_score))
 
 
 def get_test_label(test_file):
@@ -182,19 +184,21 @@ def get_test_label(test_file):
     test_label_list = []
     for line in fp:
         if linenum == 0:
-            linenum+= 1
+            linenum += 1
             continue
         if "?" in line.strip():
             continue
         item = line.strip().split(",")
         label_str = item[-1]
-        if label_str==">50K":
+        if label_str == ">50K":
             test_label_list.append(1)
         elif label_str == "<=50K":
             test_label_list.append(0)
         else:
-            print label_str
-            print "error"
+            print
+            label_str
+            print
+            "error"
     fp.close()
     return test_label_list
 
@@ -204,7 +208,7 @@ def test_model_performance(model_es, test_file):
     test model auc in test data
     """
     test_label = get_test_label(test_file)
-    result = model_es.predict(input_fn=lambda :input_fn(test_file, 1, False, 100, True))
+    result = model_es.predict(input_fn=lambda: input_fn(test_file, 1, False, 100, True))
     predict_list = []
     for one_res in result:
         if "probabilities" in one_res:
@@ -212,7 +216,7 @@ def test_model_performance(model_es, test_file):
     get_auc(predict_list, test_label)
 
 
-def run_main(train_file, test_file,  model_folder, model_export_folder):
+def run_main(train_file, test_file, model_folder, model_export_folder):
     """
     Args:
         train_file: 
@@ -221,12 +225,10 @@ def run_main(train_file, test_file,  model_folder, model_export_folder):
         model_export_folder: for tf serving
     """
     wide_column, deep_column = get_feature_column()
-    model_es, serving_input_fn=build_model_estimator(wide_column, deep_column, model_folder)
+    model_es, serving_input_fn = build_model_estimator(wide_column, deep_column, model_folder)
     train_wd_model(model_es, train_file, test_file, model_export_folder, serving_input_fn)
     test_model_performance(model_es, test_file)
 
 
 if __name__ == "__main__":
     run_main("../data/train.txt", "../data/test.txt", "../data/wd", "../data/wd_export")
-
-

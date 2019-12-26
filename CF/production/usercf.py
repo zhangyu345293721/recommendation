@@ -1,16 +1,16 @@
-#-*-coding:utf8-*-
+# -*-coding:utf8-*-
 """
 user cf main algo
-author:david
-date:2018***
+author:zhangyu
 """
 from __future__ import division
 import sys
 
 sys.path.append("../util")
-import util.reader as reader
+import CF.util.reader as reader
 import math
 import operator
+
 
 def transfer_user_click(user_click):
     """
@@ -26,7 +26,7 @@ def transfer_user_click(user_click):
         for itemid in item_list:
             item_click_by_user.setdefault(itemid, [])
             item_click_by_user[itemid].append(user)
-    return  item_click_by_user
+    return item_click_by_user
 
 
 def base_contribution_score():
@@ -45,7 +45,7 @@ def update_contribution_score(item_user_click_count):
     Return:
         contribution score
     """
-    return 1/math.log10(1 + item_user_click_count)
+    return 1 / math.log10(1 + item_user_click_count)
 
 
 def update_two_contribution_score(click_time_one, click_time_two):
@@ -56,10 +56,11 @@ def update_two_contribution_score(click_time_one, click_time_two):
     Return:
         contribution score
     """
-    delta_time = abs(click_time_two -click_time_one)
-    norm_num = 60*60*24
-    delta_time = delta_time/ norm_num
-    return 1/(1+delta_time)
+    delta_time = abs(click_time_two - click_time_one)
+    norm_num = 60 * 60 * 24
+    delta_time = delta_time / norm_num
+    return 1 / (1 + delta_time)
+
 
 def cal_user_sim(item_click_by_user, user_click_time):
     """
@@ -71,7 +72,7 @@ def cal_user_sim(item_click_by_user, user_click_time):
     """
     co_appear = {}
     user_click_count = {}
-    for itemid ,user_list in item_click_by_user.items():
+    for itemid, user_list in item_click_by_user.items():
         for index_i in range(0, len(user_list)):
             user_i = user_list[index_i]
             user_click_count.setdefault(user_i, 0)
@@ -99,10 +100,10 @@ def cal_user_sim(item_click_by_user, user_click_time):
         user_sim_info.setdefault(user_i, {})
         for user_j, cotime in relate_user.items():
             user_sim_info[user_i].setdefault(user_j, 0)
-            user_sim_info[user_i][user_j] = cotime/math.sqrt(user_click_count[user_i]*user_click_count[user_j])
+            user_sim_info[user_i][user_j] = cotime / math.sqrt(user_click_count[user_i] * user_click_count[user_j])
     for user in user_sim_info:
-        user_sim_info_sorted[user] = sorted(user_sim_info[user].iteritems(), key =
-                                            operator.itemgetter(1), reverse=True)
+        user_sim_info_sorted[user] = sorted(user_sim_info[user].iteritems(), key=
+        operator.itemgetter(1), reverse=True)
     return user_sim_info_sorted
 
 
@@ -115,7 +116,7 @@ def cal_recom_result(user_click, user_sim):
     Return:
         dict, key userid value:dict value_key:itemid , value_value:recom_score
     """
-    recom_result ={}
+    recom_result = {}
     topk_user = 3
     item_num = 5
     for user, item_list in user_click.items():
@@ -141,11 +142,11 @@ def debug_user_sim(user_sim):
     topk = 5
     fix_user = "1"
     if fix_user not in user_sim:
-        print "invalid user"
+        print("invalid user")
         return
     for zuhe in user_sim[fix_user][:topk]:
         userid, score = zuhe
-        print fix_user + "\tsim_user" + userid + "\t" + str(score)
+        print(fix_user + "\tsim_user" + userid + "\t" + str(score))
 
 
 def debug_recom_result(item_info, recom_result):
@@ -157,13 +158,13 @@ def debug_recom_result(item_info, recom_result):
     """
     fix_user = "1"
     if fix_user not in recom_result:
-        print "invalid user for recoming result"
+        print("invalid user for recoming result")
         return
     for itemid in recom_result["1"]:
         if itemid not in item_info:
             continue
         recom_score = recom_result["1"][itemid]
-        print "recom_result:" + ",".join(item_info[itemid]) + "\t" + str(recom_score)
+        print("recom_result:" + ",".join(item_info[itemid]) + "\t" + str(recom_score))
 
 
 def main_flow():
@@ -175,9 +176,10 @@ def main_flow():
     item_click_by_user = transfer_user_click(user_click)
     user_sim = cal_user_sim(item_click_by_user, user_click_time)
     debug_user_sim(user_sim)
-    #recom_result = cal_recom_result(user_click, user_sim)
-    #print recom_result["1"]
-    #debug_recom_result(item_info, recom_result)
+    # recom_result = cal_recom_result(user_click, user_sim)
+    # print recom_result["1"]
+    # debug_recom_result(item_info, recom_result)
+
 
 if __name__ == "__main__":
     main_flow()

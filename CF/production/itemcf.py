@@ -1,15 +1,16 @@
-#-*-coding:utf8-*-
+# -*-coding:utf8-*-
 """
 item cf main Algo
-author:david
-date:2018****
+author:zhangyu
 """
 from __future__ import division
 import sys
+
 sys.path.append("../util")
-import util.reader as reader
+import CF.util.reader as reader
 import math
 import operator
+
 
 def base_contribute_score():
     """
@@ -22,7 +23,7 @@ def update_one_contribute_score(user_total_click_num):
     """
     item cf update sim contribution score by user
     """
-    return 1/math.log10(1+user_total_click_num)
+    return 1 / math.log10(1 + user_total_click_num)
 
 
 def update_two_contribute_score(click_time_one, click_time_two):
@@ -30,9 +31,10 @@ def update_two_contribute_score(click_time_one, click_time_two):
     item cf update two sim contribution score by user
     """
     delata_time = abs(click_time_one - click_time_two)
-    total_sec = 60 * 60 *24
-    delata_time = delata_time/total_sec
-    return 1/(1+delata_time)
+    total_sec = 60 * 60 * 24
+    delata_time = delata_time / total_sec
+    return 1 / (1 + delata_time)
+
 
 def cal_item_sim(user_click, user_click_time):
     """
@@ -50,14 +52,14 @@ def cal_item_sim(user_click, user_click_time):
             item_user_click_time[itemid_i] += 1
             for index_j in range(index_i + 1, len(itemlist)):
                 itemid_j = itemlist[index_j]
-                if user+ "_" + itemid_i not in user_click_time:
+                if user + "_" + itemid_i not in user_click_time:
                     click_time_one = 0
                 else:
-                    click_time_one = user_click_time[user +"_" + itemid_i]
-                if user+ "_" + itemid_j not in user_click_time:
+                    click_time_one = user_click_time[user + "_" + itemid_i]
+                if user + "_" + itemid_j not in user_click_time:
                     click_time_two = 0
                 else:
-                    click_time_two = user_click_time[user +"_" + itemid_j]
+                    click_time_two = user_click_time[user + "_" + itemid_j]
                 co_appear.setdefault(itemid_i, {})
                 co_appear[itemid_i].setdefault(itemid_j, 0)
                 co_appear[itemid_i][itemid_j] += update_two_contribute_score(click_time_one, click_time_two)
@@ -69,13 +71,13 @@ def cal_item_sim(user_click, user_click_time):
     item_sim_score_sorted = {}
     for itemid_i, relate_item in co_appear.items():
         for itemid_j, co_time in relate_item.items():
-              sim_score = co_time/math.sqrt(item_user_click_time[itemid_i]*item_user_click_time[itemid_j])
-              item_sim_score.setdefault(itemid_i, {})
-              item_sim_score[itemid_i].setdefault(itemid_j, 0)
-              item_sim_score[itemid_i][itemid_j] = sim_score
+            sim_score = co_time / math.sqrt(item_user_click_time[itemid_i] * item_user_click_time[itemid_j])
+            item_sim_score.setdefault(itemid_i, {})
+            item_sim_score[itemid_i].setdefault(itemid_j, 0)
+            item_sim_score[itemid_i][itemid_j] = sim_score
     for itemid in item_sim_score:
-        item_sim_score_sorted[itemid] = sorted(item_sim_score[itemid].iteritems(), key = \
-                                                operator.itemgetter(1), reverse=True)
+        item_sim_score_sorted[itemid] = sorted(item_sim_score[itemid].iteritems(), key= \
+            operator.itemgetter(1), reverse=True)
     return item_sim_score_sorted
 
 
@@ -98,9 +100,9 @@ def cal_recom_result(sim_info, user_click):
             if itemid not in sim_info:
                 continue
             for itemsimzuhe in sim_info[itemid][:topk]:
-                 itemsimid = itemsimzuhe[0]
-                 itemsimscore = itemsimzuhe[1]
-                 recom_info[user][itemsimid] = itemsimscore
+                itemsimid = itemsimzuhe[0]
+                itemsimscore = itemsimzuhe[1]
+                recom_info[user][itemsimid] = itemsimscore
     return recom_info
 
 
@@ -113,7 +115,8 @@ def debug_itemsim(item_info, sim_info):
     """
     fixed_itemid = "1";
     if fixed_itemid not in item_info:
-        print "invalid itemid"
+        print
+        "invalid itemid"
         return
     [title_fix, genres_fix] = item_info[fixed_itemid]
     for zuhe in sim_info[fixed_itemid][:5]:
@@ -122,7 +125,8 @@ def debug_itemsim(item_info, sim_info):
         if itemid_sim not in item_info:
             continue
         [title, genres] = item_info[itemid_sim]
-        print   title_fix + "\t" + genres_fix + "\tsim:" + title + "\t" +  genres + "\t" + str(sim_score)
+        print
+        title_fix + "\t" + genres_fix + "\tsim:" + title + "\t" + genres + "\t" + str(sim_score)
 
 
 def debug_recomresult(recom_result, item_info):
@@ -135,13 +139,16 @@ def debug_recomresult(recom_result, item_info):
     """
     user_id = "1"
     if user_id not in recom_result:
-        print "invalid result"
+        print
+        "invalid result"
         return
-    for zuhe in sorted(recom_result[user_id].iteritems(), key = operator.itemgetter(1), reverse=True):
+    for zuhe in sorted(recom_result[user_id].iteritems(), key=operator.itemgetter(1), reverse=True):
         itemid, score = zuhe
         if itemid not in item_info:
             continue
-        print ",".join(item_info[itemid]) + "\t" + str(score)
+        print
+        ",".join(item_info[itemid]) + "\t" + str(score)
+
 
 def main_flow():
     """
@@ -151,9 +158,10 @@ def main_flow():
     item_info = reader.get_item_info("../data/movies.txt")
     sim_info = cal_item_sim(user_click, user_click_time)
     debug_itemsim(item_info, sim_info)
-    #recom_result = cal_recom_result(sim_info, user_click)
-    #print recom_result["1"]
-    #debug_recomresult(recom_result, item_info)
+    # recom_result = cal_recom_result(sim_info, user_click)
+    # print recom_result["1"]
+    # debug_recomresult(recom_result, item_info)
+
 
 if __name__ == "__main__":
     main_flow()

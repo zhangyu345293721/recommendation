@@ -1,7 +1,6 @@
-#-*-coding:utf8-*-
+# -*-coding:utf8-*-
 """
-author:david
-date:2018***
+author:zhangyu
 produce train data for item2vec
 """
 
@@ -22,7 +21,7 @@ def produce_train_data(input_file, out_file):
     score_thr = 4.0
     fp = open(input_file)
     for line in fp:
-        if linenum==0:
+        if linenum == 0:
             linenum += 1
             continue
         item = line.strip().split(',')
@@ -43,10 +42,10 @@ def produce_train_data(input_file, out_file):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print "usage: python xx.py inputfile outputfile"
+        print("usage: python xx.py inputfile outputfile")
         sys.exit()
     else:
         inputfile = sys.argv[1]
         outputfile = sys.argv[2]
         produce_train_data(inputfile, outputfile)
-        #produce_train_data("../data/ratings.txt", "../data/train_data.txt")
+        # produce_train_data("../data/ratings.txt", "../data/train_data.txt")

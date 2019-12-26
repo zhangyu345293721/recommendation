@@ -1,7 +1,6 @@
 # -*-coding:utf8-*-
 """
-author:david
-date:2018****
+author:zhangyu
 feature selection and data selection for tree model
 """
 import pandas as pd
@@ -63,7 +62,7 @@ def dict_trans(dict_in):
     """
     output_dict = {}
     index = 0
-    for zuhe in sorted(dict_in.iteritems(), key = operator.itemgetter(1), reverse= True):
+    for zuhe in sorted(dict_in.iteritems(), key=operator.itemgetter(1), reverse=True):
         output_dict[zuhe[0]] = index
         index += 1
     return output_dict
@@ -98,8 +97,8 @@ def process_dis_feature(feature_str, df_train, df_test):
     """
     origin_dict = df_train.loc[:, feature_str].value_counts().to_dict()
     feature_dict = dict_trans(origin_dict)
-    df_train.loc[:, feature_str] = df_train.loc[:,feature_str].apply(dis_to_feature, args= (feature_dict, ))
-    df_test.loc[:, feature_str] = df_test.loc[:,feature_str].apply(dis_to_feature, args= (feature_dict, ))
+    df_train.loc[:, feature_str] = df_train.loc[:, feature_str].apply(dis_to_feature, args=(feature_dict,))
+    df_test.loc[:, feature_str] = df_test.loc[:, feature_str].apply(dis_to_feature, args=(feature_dict,))
     return len(feature_dict)
 
 
@@ -111,12 +110,12 @@ def list_trans(input_dict):
     Return:
          a list, [0.1, 0.2, 0.3, 0.4, 0.5]
     """
-    output_list = [0]*5
-    key_list = ["min", "25%","50%","75%","max"]
+    output_list = [0] * 5
+    key_list = ["min", "25%", "50%", "75%", "max"]
     for index in range(len(key_list)):
         fix_key = key_list[index]
         if fix_key not in input_dict:
-            print "error"
+            print("error")
             sys.exit()
         else:
             output_list[index] = input_dict[fix_key]
@@ -148,7 +147,7 @@ def ana_train_data(input_train_data, input_test_data, out_train_file, out_test_f
     label_feature_str = "label"
     dis_feature_list = ["workclass", "education", "marital-status", "occupation",
                         "relationship", "race", "sex", "native-country"]
-    con_feature_list = ["age","education-num","capital-gain","capital-loss","hours-per-week"]
+    con_feature_list = ["age", "education-num", "capital-gain", "capital-loss", "hours-per-week"]
     process_label_feature(label_feature_str, train_data_df)
     process_label_feature(label_feature_str, test_data_df)
     dis_feature_num = 0
@@ -161,12 +160,12 @@ def ana_train_data(input_train_data, input_test_data, out_train_file, out_test_f
     output_file(train_data_df, out_train_file)
     output_file(test_data_df, out_test_file)
     fw = open(feature_num_file, "w+")
-    fw.write("feature_num=" + str(dis_feature_num + con_feature_num) )
+    fw.write("feature_num=" + str(dis_feature_num + con_feature_num))
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 6:
-        print "usage: python xx.py origin_train origin_test train_file test_file feature_num_file"
+        print("usage: python xx.py origin_train origin_test train_file test_file feature_num_file")
         sys.exit()
     else:
         origin_train = sys.argv[1]
@@ -176,4 +175,4 @@ if __name__ == "__main__":
         feature_num_file = sys.argv[5]
         ana_train_data(origin_train, origin_test, train_file, test_file, feature_num_file)
 
-    #ana_train_data("../data/train.txt", "../data/test.txt", "../data/train_file", "../data/test_file", "../data/feature_num")
+    # ana_train_data("../data/train.txt", "../data/test.txt", "../data/train_file", "../data/test_file", "../data/feature_num")

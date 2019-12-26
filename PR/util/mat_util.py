@@ -1,14 +1,13 @@
 #-*-coding:utf8-*-
 """
-author:david
-date:2018***
+author:zhangyu
 mat util for personal rank algo
 """
 
 from __future__ import division
 from scipy.sparse import coo_matrix
 import numpy as np
-import read as read
+import PR.read as read
 import sys
 
 

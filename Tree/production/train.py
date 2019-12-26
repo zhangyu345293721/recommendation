@@ -1,13 +1,12 @@
 # -*-coding:utf8-*-
 """
-author:david
-date:2018****
+author:zhangyu
 train gbdt model
 """
-import xgboost as xgb
+import Tree.xgboost as xgb
 import sys
 sys.path.append("../")
-import util.get_feature_num as GF
+import Tree.util.get_feature_num as GF
 import numpy as np
 from sklearn.linear_model import LogisticRegressionCV as LRCV
 from scipy.sparse import coo_matrix
@@ -66,8 +65,8 @@ def grid_search(train_mat):
         para_dict = {"max_depth": tree_depth, "eta": learning_rate, "objective": "reg:linear", "silent": 1}
         res = xgb.cv(para_dict, train_mat, tree_num, nfold=5, metrics={'auc'})
         auc_score = res.loc[tree_num-1, ['test-auc-mean']].values[0]
-        print "tree_depth:%s,tree_num:%s, learning_rate:%s, auc:%f" \
-              %(tree_depth, tree_num, learning_rate, auc_score)
+        print ("tree_depth:%s,tree_num:%s, learning_rate:%s, auc:%f" \
+              %(tree_depth, tree_num, learning_rate, auc_score))
 
 
 def train_tree_model(train_file , feature_num_file, tree_model_file):
@@ -148,13 +147,13 @@ def train_tree_and_lr_model(train_file, feature_num_file, mix_tree_model_file, m
     lr_clf = LRCV(Cs=[1.0], penalty='l2', dual=False, tol=0.0001, max_iter=500, cv=5)\
         .fit(total_feature_list, train_label)
     scores = lr_clf.scores_.values()[0]
-    print "diffC:%s" % (','.join([str(ele) for ele in scores.mean(axis=0)]))
-    print "Accuracy:%f(+-%0.2f)" % (scores.mean(), scores.std() * 2)
+    print( "diffC:%s" % (','.join([str(ele) for ele in scores.mean(axis=0)])))
+    print( "Accuracy:%f(+-%0.2f)" % (scores.mean(), scores.std() * 2))
     lr_clf = LRCV(Cs=[1.0], penalty='l2', dual=False, tol=0.0001, max_iter=500, scoring='roc_auc', cv=5).fit(
         total_feature_list, train_label)
     scores = lr_clf.scores_.values()[0]
-    print "diffC:%s" % (','.join([str(ele) for ele in scores.mean(axis=0)]))
-    print "AUC:%f,(+-%0.2f)" % (scores.mean(), scores.std() * 2)
+    print ("diffC:%s" % (','.join([str(ele) for ele in scores.mean(axis=0)])))
+    print ("AUC:%f,(+-%0.2f)" % (scores.mean(), scores.std() * 2))
     fw = open(mix_lr_model_file, "w+")
     coef = lr_clf.coef_[0]
     fw.write(','.join([str(ele) for ele in coef]))
@@ -174,8 +173,8 @@ if __name__ == "__main__":
         lr_coef_mix_model = sys.argv[4]
         train_tree_and_lr_model(train_file,  feature_num_file, tree_mix_model, lr_coef_mix_model)
     else:
-        print "train gbdt model usage: python xx.py train_file feature_num_file tree_model"
-        print "train lr_gbdt model usage: python xx.py train_file feature_num_file tree_mix_model lr_coef_mix_model"
+        print ("train gbdt model usage: python xx.py train_file feature_num_file tree_model")
+        print ("train lr_gbdt model usage: python xx.py train_file feature_num_file tree_mix_model lr_coef_mix_model")
         sys.exit()
     """
     train_tree_model("../data/train_file", "../data/feature_num", "../data/xgb.model")

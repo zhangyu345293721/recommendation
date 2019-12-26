@@ -1,4 +1,4 @@
-#-*-coding:utf8-*-
+# -*-coding:utf8-*-
 """
 author:david
 date:2018****
@@ -7,15 +7,16 @@ personal rank main algo
 
 from __future__ import division
 import sys
+
 sys.path.append("../util")
-import util.read as read
+import PR.util.read as read
 import operator
-import util.mat_util as mat_util
+import PR.util.mat_util as mat_util
 from scipy.sparse.linalg import gmres
 import numpy as np
 
 
-def personal_rank(graph, root, alpha, iter_num, recom_num= 10):
+def personal_rank(graph, root, alpha, iter_num, recom_num=10):
     """
     Args
         graph: user item graph 
@@ -27,36 +28,36 @@ def personal_rank(graph, root, alpha, iter_num, recom_num= 10):
         a dict, key itemid, value pr
     """
     rank = {}
-    rank = {point:0 for point in graph}
+    rank = {point: 0 for point in graph}
     rank[root] = 1
     recom_result = {}
     for iter_index in range(iter_num):
         tmp_rank = {}
-        tmp_rank = {point:0 for point in graph}
+        tmp_rank = {point: 0 for point in graph}
         for out_point, out_dict in graph.items():
-                for inner_point, value in graph[out_point].items():
-                    tmp_rank[inner_point] += round(alpha*rank[out_point]/len(out_dict), 4)
-                    if inner_point == root:
-                        tmp_rank[inner_point] += round(1-alpha, 4)
+            for inner_point, value in graph[out_point].items():
+                tmp_rank[inner_point] += round(alpha * rank[out_point] / len(out_dict), 4)
+                if inner_point == root:
+                    tmp_rank[inner_point] += round(1 - alpha, 4)
         if tmp_rank == rank:
-            print "out" + str(iter_index)
+            print("out" + str(iter_index))
             break
         rank = tmp_rank
     right_num = 0
-    for zuhe in sorted(rank.iteritems(), key = operator.itemgetter(1), reverse=True):
+    for zuhe in sorted(rank.iteritems(), key=operator.itemgetter(1), reverse=True):
         point, pr_score = zuhe[0], zuhe[1]
         if len(point.split('_')) < 2:
             continue
         if point in graph[root]:
             continue
-        recom_result[point] = round(pr_score,4)
+        recom_result[point] = round(pr_score, 4)
         right_num += 1
         if right_num > recom_num:
             break
     return recom_result
 
 
-def personal_rank_mat(graph, root, alpha, recom_num = 10):
+def personal_rank_mat(graph, root, alpha, recom_num=10):
     """
     Args:
         graph:user item graph
@@ -85,7 +86,7 @@ def personal_rank_mat(graph, root, alpha, recom_num = 10):
         if point in graph[root]:
             continue
         score_dict[point] = round(res[index], 3)
-    for zuhe in sorted(score_dict.iteritems(), key = operator.itemgetter(1), reverse= True)[:recom_num]:
+    for zuhe in sorted(score_dict.iteritems(), key=operator.itemgetter(1), reverse=True)[:recom_num]:
         point, score = zuhe[0], zuhe[1]
         recom_dict[point] = score
     return recom_dict
@@ -100,7 +101,7 @@ def get_one_user_recom():
     graph = read.get_graph_from_data("../data/ratings.txt")
     iter_num = 100
     recom_result = personal_rank(graph, user, alpha, iter_num, 100)
-    return  recom_result
+    return recom_result
     """
     item_info = read.get_item_info("../data/movies.txt")
     for itemid in graph[user]:
@@ -128,5 +129,3 @@ def get_one_user_by_mat():
 if __name__ == "__main__":
     recom_result_base = get_one_user_recom()
     recom_result_mat = get_one_user_by_mat()
-
-

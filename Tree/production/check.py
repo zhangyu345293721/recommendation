@@ -1,13 +1,12 @@
 # -*-coding:utf8-*-
 """
-author:david
-date:2018****
+author:zhangyu
 test the performance of the model in the test data for gbdt and gbdt_lr
 """
 from __future__ import division
 import numpy as np
-import xgboost as xgb
-import train as TA
+import Tree.xgboost as xgb
+import Tree.train as TA
 from scipy.sparse import csc_matrix
 import math
 import sys
@@ -22,9 +21,9 @@ def get_test_data(test_file, feature_num_file):
          two np array: test _feature, test_label
     """
     total_feature_num = 103
-    test_label = np.genfromtxt(test_file, dtype= np.float32, delimiter=",", usecols= -1)
+    test_label = np.genfromtxt(test_file, dtype=np.float32, delimiter=",", usecols=-1)
     feature_list = range(total_feature_num)
-    test_feature = np.genfromtxt(test_file, dtype= np.float32, delimiter=",", usecols= feature_list)
+    test_feature = np.genfromtxt(test_file, dtype=np.float32, delimiter=",", usecols=feature_list)
     return test_feature, test_label
 
 
@@ -40,7 +39,7 @@ def predict_by_lr_gbdt(test_feature, mix_tree_model, mix_lr_coef, tree_info):
     """
     predict by mix model
     """
-    tree_leaf = mix_tree_model.predict(xgb.DMatrix(test_feature), pred_leaf = True)
+    tree_leaf = mix_tree_model.predict(xgb.DMatrix(test_feature), pred_leaf=True)
     (tree_depth, tree_num, step_size) = tree_info
     total_feature_list = TA.get_gbdt_and_lr_feature(tree_leaf, tree_depth=tree_depth, tree_num=tree_num)
     result_list = np.dot(csc_matrix(mix_lr_coef), total_feature_list.tocsc().T).toarray()[0]
@@ -52,7 +51,7 @@ def sigmoid(x):
     """
     sigmoid function
     """
-    return 1/(1+math.exp(-x))
+    return 1 / (1 + math.exp(-x))
 
 
 def get_auc(predict_list, test_label):
@@ -67,7 +66,7 @@ def get_auc(predict_list, test_label):
         predict_score = predict_list[index]
         label = test_label[index]
         total_list.append((label, predict_score))
-    sorted_total_list = sorted(total_list, key = lambda ele:ele[1])
+    sorted_total_list = sorted(total_list, key=lambda ele: ele[1])
     neg_num = 0
     pos_num = 0
     count = 1
@@ -80,8 +79,9 @@ def get_auc(predict_list, test_label):
             pos_num += 1
             total_pos_index += count
         count += 1
-    auc_score = (total_pos_index - (pos_num)*(pos_num + 1)/2) / (pos_num*neg_num)
-    print "auc:%.5f" %(auc_score)
+    auc_score = (total_pos_index - (pos_num) * (pos_num + 1) / 2) / (pos_num * neg_num)
+    print
+    "auc:%.5f" % (auc_score)
 
 
 def get_accuary(predict_list, test_label):
@@ -101,8 +101,9 @@ def get_accuary(predict_list, test_label):
         if predict_label == test_label[index]:
             right_num += 1
     total_num = len(predict_list)
-    accuary_score = right_num/total_num
-    print "accuary:%.5f" %(accuary_score)
+    accuary_score = right_num / total_num
+    print
+    "accuary:%.5f" % (accuary_score)
 
 
 def run_check_core(test_feature, test_label, model, score_func):
@@ -141,10 +142,9 @@ def run_check_lr_gbdt_core(test_feature, test_label, mix_tree_model, mix_lr_coef
         tree_info:tree_depth, tree_num, step_size
         score_func: different score_func
     """
-    predict_list =score_func(test_feature, mix_tree_model, mix_lr_coef, tree_info)
+    predict_list = score_func(test_feature, mix_tree_model, mix_lr_coef, tree_info)
     get_auc(predict_list, test_label)
     get_accuary(predict_list, test_label)
-
 
 
 def run_check_lr_gbdt(test_file, tree_mix_model_file, lr_coef_mix_model_file, feature_num_file):
@@ -174,10 +174,12 @@ if __name__ == "__main__":
         tree_mix_model = sys.argv[2]
         lr_coef_mix_model = sys.argv[3]
         feature_num_file = sys.argv[4]
-        run_check_lr_gbdt(test_file, tree_mix_model, lr_coef_mix_model,  feature_num_file)
+        run_check_lr_gbdt(test_file, tree_mix_model, lr_coef_mix_model, feature_num_file)
     else:
-        print "check gbdt model usage: python xx.py test_file  tree_model feature_num_file"
-        print "check lr_gbdt model usage: python xx.py test_file tree_mix_model lr_coef_mix_model feature_num_file"
+        print
+        "check gbdt model usage: python xx.py test_file  tree_model feature_num_file"
+        print
+        "check lr_gbdt model usage: python xx.py test_file tree_mix_model lr_coef_mix_model feature_num_file"
         sys.exit()
     """
     run_check("../data/test_file","../data/xgb.model", "../data/feature_num")
