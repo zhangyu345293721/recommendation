@@ -1,9 +1,10 @@
-# recommendation
-- LFM模型
+# recommendation (由于数据太大无法上传到github，如果需求请邮件联系我)
+- LFM 基于邻域的个性化召回算法
 - CF 协同过滤算法
 - ContentBased 基于内容的推荐算法
 - Iteam2Vec   词向量
-- LR
-- PR
-- Tree
-- WD
+- LR  线性回归
+- PR  个性排名
+- Tree 决策树
+- WD  排序模型wide and deep
+
