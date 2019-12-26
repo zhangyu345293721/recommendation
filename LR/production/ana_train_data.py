@@ -267,4 +267,3 @@ if __name__ == "__main__":
         test_file = sys.argv[4]
         feature_num_file = sys.argv[5]
         ana_train_data(origin_train, origin_test, train_file, test_file, feature_num_file)
-        # ana_train_data("../data/train.txt", "../data/test.txt", "../data/train_file", "../data/test_file", "../data/feature_num")

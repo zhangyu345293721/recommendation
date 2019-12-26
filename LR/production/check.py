@@ -1,7 +1,6 @@
 # -*-coding:utf8-*-
 """
-author:david
-date:2018****
+author:zhangyu
 use lr model to check the performance in test file
 """
 from __future__ import division
