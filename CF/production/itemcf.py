@@ -1,6 +1,6 @@
 # -*-coding:utf8-*-
 """
-item cf main Algo
+基于商品的协同过滤算法
 author:zhangyu
 """
 from __future__ import division
@@ -14,21 +14,21 @@ import operator
 
 def base_contribute_score() -> int:
     """
-    item cf base sim contribution score by user
+       商品的分数通过用户输入
     """
     return 1
 
 
 def update_one_contribute_score(user_total_click_num) -> float:
     """
-    item cf update sim contribution score by user
+        通过用户来更新分数
     """
     return 1 / math.log10(1 + user_total_click_num)
 
 
 def update_two_contribute_score(click_time_one: int, click_time_two: int) -> float:
     """
-    item cf update two sim contribution score by user
+        通过用户来更新两个分数
     """
     delata_time = abs(click_time_one - click_time_two)
     total_sec = 60 * 60 * 24
@@ -83,10 +83,10 @@ def cal_item_sim(user_click, user_click_time):
 
 def cal_recom_result(sim_info, user_click):
     """
-    recom by itemcf
+       通过商品推荐
     Args:
-        sim_info: item sim dict
-       user_click: user click dict
+        sim_info: 字典
+       user_click: 用户点击字典
     Return:
         dict, key:userid value dict, value_key itemid , value_value recom_score
     """
@@ -108,7 +108,7 @@ def cal_recom_result(sim_info, user_click):
 
 def debug_itemsim(item_info, sim_info):
     """
-    show itemsim info
+        展示详细信息
     Args:
         item_info: dict, key itemid value:[title, genres]
         sim_info: dict key itemid , value dict,  key [(itemid1, simscore), (itemdi2, simscore)]
@@ -131,10 +131,10 @@ def debug_itemsim(item_info, sim_info):
 
 def debug_recomresult(recom_result, item_info):
     """
-    debug recomresult
+        测试推荐结果
     Args:
         recom_result: key userid value:dict , value_key:itemid , value_value:recom_score
-       item_info: dict, key itemid  value:[title, genre]
+        item_info: dict, key itemid  value:[title, genre]
 
     """
     user_id = "1"
@@ -146,13 +146,12 @@ def debug_recomresult(recom_result, item_info):
         itemid, score = zuhe
         if itemid not in item_info:
             continue
-        print
-        ",".join(item_info[itemid]) + "\t" + str(score)
+        print(",".join(item_info[itemid]) + "\t" + str(score))
 
 
 def main_flow():
     """
-    main flow of itemcf
+       基于商品推荐的主函数
     """
     user_click, user_click_time = reader.get_user_click("../data/ratings.txt")
     item_info = reader.get_item_info("../data/movies.txt")
