@@ -7,7 +7,7 @@ import os
 
 def get_user_click(rating_file) -> dict:
     """
-    get user click list
+        获取用户点击链表
     Args:
         rating_file:input file
     Return:
@@ -40,7 +40,7 @@ def get_user_click(rating_file) -> dict:
 
 def get_item_info(item_file) -> dict:
     """
-    get item info[title, genres]
+        通过文件获取点击率
     Args:
         item_file:input iteminfo file
     Return:
