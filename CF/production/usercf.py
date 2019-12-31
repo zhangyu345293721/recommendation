@@ -1,6 +1,6 @@
 # -*-coding:utf8-*-
 """
-user cf main algo
+    基于用户的协同过滤算法
 author:zhangyu
 """
 from __future__ import division
@@ -14,7 +14,7 @@ import operator
 
 def transfer_user_click(user_click):
     """
-    get item by user_click
+        获取用户点击的商品
     Args:
         user_click: key userid, value:[itemid1, itemid2]
     Return:
@@ -31,15 +31,14 @@ def transfer_user_click(user_click):
 
 def base_contribution_score():
     """
-    base usercf  user contirbution score
-
+          基于用户来打分
     """
     return 1
 
 
 def update_contribution_score(item_user_click_count):
     """
-    usercf user contribution score update v1
+        更新分数
     Args:
         item_user_click_count: how many user have clicked this item
     Return:
@@ -50,7 +49,7 @@ def update_contribution_score(item_user_click_count):
 
 def update_two_contribution_score(click_time_one, click_time_two):
     """
-    user cf user contribution score update v2
+        更新分数2
     Args:
          differrent user action time to the same item, click_time_one,click_time_two
     Return:
@@ -64,7 +63,7 @@ def update_two_contribution_score(click_time_one, click_time_two):
 
 def cal_user_sim(item_click_by_user, user_click_time):
     """
-    get user sim info
+        获取具体信息
     Args:
         item_click_by_user: dict , key:itemid value:[itemid1, itemid2]
     Return:
@@ -109,7 +108,7 @@ def cal_user_sim(item_click_by_user, user_click_time):
 
 def cal_recom_result(user_click, user_sim):
     """
-    recom by usercf algo
+       基于用户推荐结果
     Args:
         user_click: dict, key userid , value [itemid1, itemid2]
         user_sim: key:userid value:[(useridj, score1),(ueridk, score2)]
@@ -135,7 +134,7 @@ def cal_recom_result(user_click, user_sim):
 
 def debug_user_sim(user_sim):
     """
-    print user sim result
+        打印用户结果
     Args:
         user_sim: key userid value:[(userid1, score1), (userid2, score2)]
     """
@@ -151,7 +150,7 @@ def debug_user_sim(user_sim):
 
 def debug_recom_result(item_info, recom_result):
     """
-    print recom result for user
+        测试用户结果
     Args:
         item_info: key itemid value:[title, genres]
         recom_result: key userid value dict , value key:itemid value value:recom_score
@@ -169,7 +168,7 @@ def debug_recom_result(item_info, recom_result):
 
 def main_flow():
     """
-    main flow
+        主方法
     """
     user_click, user_click_time = reader.get_user_click("../data/ratings.txt")
     item_info = reader.get_item_info("../data/movies.txt")
