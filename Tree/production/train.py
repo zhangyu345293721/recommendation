@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-author:zhangyu
-train gbdt model
+    训练gdbt模型
+    author:zhangyu
 """
 import Tree.xgboost as xgb
 import sys
@@ -14,7 +14,7 @@ from scipy.sparse import coo_matrix
 
 def get_train_data(train_file, feature_num_file):
     """
-    get train data and label for training
+        获取训练数据和标签
     """
     total_feature_num = GF.get_feature_num(feature_num_file)
     train_label = np.genfromtxt(train_file, dtype=np.int32, delimiter=",", usecols= -1)
@@ -26,11 +26,12 @@ def get_train_data(train_file, feature_num_file):
 def train_tree_model_core(train_mat, tree_depth, tree_num, learning_rate):
     """
     Args:
-        train_mat:train data and label
-        tree_depth:
-        tree_num:total tree num
-        learning_rate: step_size
-    Return:Booster
+        train_mat:训练数据和标签
+        tree_depth:树的深度
+        tree_num:树的数量
+        learning_rate: 步频
+    Return:
+        Booster
     """
     para_dict = {"max_depth":tree_depth, "eta":learning_rate, "objective":"reg:linear","silent":1}
     bst = xgb.train(para_dict, train_mat, tree_num)
@@ -40,7 +41,7 @@ def train_tree_model_core(train_mat, tree_depth, tree_num, learning_rate):
 def choose_parameter():
     """
     Return:
-         list: such as [(tree_depth, tree_num, step_size),...]
+         链表
     """
     result_list = []
     tree_depth_list = [4, 5, 6]
@@ -56,8 +57,7 @@ def choose_parameter():
 def grid_search(train_mat):
     """
     Args:
-        train_mat: train data and train label
-    select the best parameter for training model
+        train_mat: 训练数据和标签
     """
     para_list = choose_parameter()
     for ele in para_list:
@@ -72,13 +72,12 @@ def grid_search(train_mat):
 def train_tree_model(train_file , feature_num_file, tree_model_file):
     """
     Args:
-        train_file: data for train model
-        tree_model_file: file to store model
-        feature_num_file:file to record feature total num
+        train_file: 训练文件
+        tree_model_file: 树模型文件
+        feature_num_file:特征数量文件
     """
     train_feature, train_label = get_train_data(train_file, feature_num_file)
     train_mat = xgb.DMatrix(train_feature, train_label)
-    # grid_search(train_mat)
     tree_num = 10
     tree_depth = 4
     learning_rate = 0.3
@@ -89,11 +88,11 @@ def train_tree_model(train_file , feature_num_file, tree_model_file):
 def get_gbdt_and_lr_feature(tree_leaf, tree_num, tree_depth):
     """
     Args:
-        tree_leaf: prediction of the tree model
-        tree_num:total_tree_num
+        tree_leaf:树叶子
+        tree_num:树的数量
         tree_depth:total_tree_depth
     Return:
-         Sparse Matrix to record total train feature for lr part of mixed model
+         Matrix
     """
     total_node_num = 2**(tree_depth + 1) - 1
     yezi_num = 2**tree_depth
@@ -120,7 +119,7 @@ def get_gbdt_and_lr_feature(tree_leaf, tree_num, tree_depth):
 
 def get_mix_model_tree_info():
     """
-    tree info of mix model
+        混合模型中树的信息
     """
     tree_depth = 4
     tree_num = 10
@@ -132,10 +131,10 @@ def get_mix_model_tree_info():
 def train_tree_and_lr_model(train_file, feature_num_file, mix_tree_model_file, mix_lr_model_file):
     """
     Args:
-        train_file:file for training model
-        feature_num_file:file to store total feature len
-        mix_tree_model_file: tree part of the mix model
-        mix_lr_model_file:lr part of the mix model
+        train_file:训练文件
+        feature_num_file:特征数量文件
+        mix_tree_model_file: 混合树模型文件
+        mix_lr_model_file:混合模型文件
     """
     train_feature, train_label = get_train_data(train_file, feature_num_file)
     train_mat = xgb.DMatrix(train_feature, train_label)
@@ -176,7 +175,4 @@ if __name__ == "__main__":
         print ("train gbdt model usage: python xx.py train_file feature_num_file tree_model")
         print ("train lr_gbdt model usage: python xx.py train_file feature_num_file tree_mix_model lr_coef_mix_model")
         sys.exit()
-    """
-    train_tree_model("../data/train_file", "../data/feature_num", "../data/xgb.model")
-    train_tree_and_lr_model("../data/train_file", "../data/feature_num","../data/xgb_mix_model", "../data/lr_coef_mix_model")
-    """
+   
