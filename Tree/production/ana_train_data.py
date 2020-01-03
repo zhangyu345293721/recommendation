@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-author:zhangyu
-feature selection and data selection for tree model
+    特征选择和数据选择
+    author:zhangyu
 """
 import pandas as pd
 import numpy as np
@@ -12,8 +12,8 @@ import sys
 def get_input(input_train_file, input_test_file):
     """
     Args:
-        input_train_file:
-        input_test_file:
+        input_train_file:输入训练文件
+        input_test_file:输入测试文件
     Return:
          pd.DataFrame train_data
          pd.DataFrame test_data
@@ -47,8 +47,8 @@ def label_trans(x):
 def process_label_feature(lable_feature_str, df_in):
     """
     Args:
-        lable_feature_str:"label"
-        df_in:DataFrameIn
+        lable_feature_str:标致特征字符串
+        df_in:df输入
     """
     df_in.loc[:, lable_feature_str] = df_in.loc[:, lable_feature_str].apply(label_trans)
 
@@ -56,9 +56,9 @@ def process_label_feature(lable_feature_str, df_in):
 def dict_trans(dict_in):
     """
     Args:
-        dict_in: key str, value int
+        dict_in: key 字符串, value int
     Return:
-        a dict, key str, value index for example 0,1,2
+        dict:字典
     """
     output_dict = {}
     index = 0
@@ -71,10 +71,10 @@ def dict_trans(dict_in):
 def dis_to_feature(x, feature_dict):
     """
     Args:
-        x: element
-        feature_dict: pos dict
+        x: 元素
+        feature_dict: 位置字典
     Return:
-        a str as "0,1,0"
+        字符串
     """
     output_list = [0] * len(feature_dict)
     if x not in feature_dict:
@@ -88,12 +88,11 @@ def dis_to_feature(x, feature_dict):
 def process_dis_feature(feature_str, df_train, df_test):
     """
     Args:
-        feature_str: feature_str
-        df_train: train_data_df
-        df_test: test_data_df
+        feature_str: 特征字符串
+        df_train: 训练数据df
+        df_test:  测试数据df
     Return:
-        the dim of the feature output
-    process dis feature for lr train
+        特征输出
     """
     origin_dict = df_train.loc[:, feature_str].value_counts().to_dict()
     feature_dict = dict_trans(origin_dict)
@@ -108,7 +107,7 @@ def list_trans(input_dict):
         input_dict:{'count': 30162.0, 'std': 13.134664776855985, 'min': 17.0, 'max': 90.0, '50%': 37.0,
                     '25%': 28.0, '75%': 47.0, 'mean': 38.437901995888865}
     Return:
-         a list, [0.1, 0.2, 0.3, 0.4, 0.5]
+        list
     """
     output_list = [0] * 5
     key_list = ["min", "25%", "50%", "75%", "max"]
@@ -124,8 +123,7 @@ def list_trans(input_dict):
 
 def output_file(df_in, out_file):
     """
-
-    write data of df_in to out_file
+        写数据到输出文件
     """
     fw = open(out_file, "w+")
     for row_index in df_in.index:
@@ -137,11 +135,11 @@ def output_file(df_in, out_file):
 def ana_train_data(input_train_data, input_test_data, out_train_file, out_test_file, feature_num_file):
     """
     Args:
-        input_train_data:
-        input_test_data:
-        out_train_file:
-        out_test_file:
-        feature_num_file:
+        input_train_data: 输入训练数据
+        input_test_data: 输入测试数据
+        out_train_file: 输出训练文件
+        out_test_file: 输出测试文件
+        feature_num_file:训练数据文件
     """
     train_data_df, test_data_df = get_input(input_train_data, input_test_data)
     label_feature_str = "label"
@@ -174,5 +172,3 @@ if __name__ == "__main__":
         test_file = sys.argv[4]
         feature_num_file = sys.argv[5]
         ana_train_data(origin_train, origin_test, train_file, test_file, feature_num_file)
-
-    # ana_train_data("../data/train.txt", "../data/test.txt", "../data/train_file", "../data/test_file", "../data/feature_num")
