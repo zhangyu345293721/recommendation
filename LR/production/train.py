@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-author:zhangyu
-train lr model
+    训练逻辑回归模型
+    author:zhangyu
 """
 import sys
 
@@ -15,10 +15,10 @@ import numpy as np
 def train_lr_model(train_file, model_coef, model_file, feature_num_file):
     """
     Args:
-        train_file: process file for lr train
+        train_file: 训练文件
         model_coef: w1 w2...
-        model_file:model pkl
-        feature_num_file: file to record num of feature
+        model_file:模型文件
+        feature_num_file: 特征数量文件
     """
     total_feature_num = gf.get_feature_num(feature_num_file)
     train_label = np.genfromtxt(train_file, dtype=np.int32, delimiter=",", usecols=-1)
@@ -50,5 +50,3 @@ if __name__ == "__main__":
         model_file = sys.argv[3]
         feature_num_file = sys.argv[4]
         train_lr_model(train_file, coef_file, model_file, feature_num_file)
-
-        # train_lr_model("../data/train_file", "../data/lr_coef", "../data/lr_model_file", "../data/feature_num")
