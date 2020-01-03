@@ -1,7 +1,7 @@
 #-*-coding:utf8-*-
 """
-author:zhangyu
-get graph from user data
+    从用户数据中得到图
+    author:zhangyu
 """
 
 import os
@@ -10,9 +10,9 @@ import os
 def get_graph_from_data(input_file):
     """
     Args:
-        input_file:user item rating file
+        input_file:输入文件
     Return:
-        a dict: {UserA:{itemb:1, itemc:1}, itemb:{UserA:1}}
+         字典
     """
     if not os.path.exists(input_file):
         return {}
@@ -42,11 +42,11 @@ def get_graph_from_data(input_file):
 
 def get_item_info(input_file):
     """
-    get item info:[title, genre]
+        获取物品的信息
     Args:
-        input_file:item info file
+        input_file:输入文件
     Return:
-        a dict: key itemid, value:[title, genre]
+        字典
     """
     if not os.path.exists(input_file):
         return {}
