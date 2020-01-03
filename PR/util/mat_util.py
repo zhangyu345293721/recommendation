@@ -1,7 +1,6 @@
 #-*-coding:utf8-*-
 """
-author:zhangyu
-mat util for personal rank algo
+    author:zhangyu
 """
 
 from __future__ import division
@@ -14,11 +13,11 @@ import sys
 def graph_to_m(graph):
     """
     Args:
-        graph:user item graph
+        graph:用户商品图
     Return:
-        a coo_matrix, sparse mat M
-        a list, total user item point
-        a dict, map all the point to row index
+       coo_matrix
+       list
+       dict
     """
     vertex = graph.keys()
     address_dict = {}
@@ -47,9 +46,9 @@ def mat_all_point(m_mat, vertex, alpha):
     """
     get E-alpha*m_mat.T
     Args:
-        m_mat:
-        vertex: total item and user point
-        alpha: the prob for random walking
+        m_mat:  m_mat
+        vertex: 总共用户点
+        alpha:  随机图像
     Return:
         a sparse
     """
