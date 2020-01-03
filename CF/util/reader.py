@@ -9,9 +9,9 @@ def get_user_click(rating_file) -> dict:
     """
         获取用户点击链表
     Args:
-        rating_file:input file
+        rating_file:点击率文件
     Return:
-        dict, key:userid ,value:[itemid1, itemid2]
+        字典
     """
     if not os.path.exists(rating_file):
         return {}, {}
@@ -42,9 +42,9 @@ def get_item_info(item_file) -> dict:
     """
         通过文件获取点击率
     Args:
-        item_file:input iteminfo file
+        item_file:输入文件
     Return:
-        a dict, key itemid, value:[title, genres]
+        字典
     """
     if not os.path.exists(item_file):
         return {}
@@ -71,8 +71,5 @@ def get_item_info(item_file) -> dict:
 
 
 if __name__ == "__main__":
-    # user_click = get_user_click("../data/ratings.txt")
-    # print len(user_click)
-    # print user_click["1"]
     item_info = get_item_info("../data/movies.txt")
     print(item_info["11"])
