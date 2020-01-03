@@ -11,8 +11,8 @@ import sys
 def produce_train_data(input_file, out_file):
     """
     Args:
-        input_file:user behavior file
-        out_file: output file
+        input_file:用户行为文件
+        out_file: 输出文件
     """
     if not os.path.exists(input_file):
         return
