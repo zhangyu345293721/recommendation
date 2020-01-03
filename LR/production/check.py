@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-author:zhangyu
-use lr model to check the performance in test file
+    author:zhangyu
+    用线性模型检查文件，在测试中
 """
 from __future__ import division
 import numpy as np
@@ -16,10 +16,10 @@ import LR.util.get_feature_num as gf
 def get_test_data(test_file, feature_num_file):
     """
     Args:
-        test_file:file to check performance
-        feature_num_file: the file record total num of feature
+        test_file:测试文件
+        feature_num_file: 特征文件数量
     Return:
-         two np array: test _feature, test_label
+         二维数组
     """
     total_feature_num = gf.get_feature_num(feature_num_file)
     test_label = np.genfromtxt(test_file, dtype=np.float32, delimiter=",", usecols=-1)
@@ -30,7 +30,7 @@ def get_test_data(test_file, feature_num_file):
 
 def predict_by_lr_model(test_feature, lr_model):
     """
-    predict by lr_model
+        通过逻辑回归模型
     """
     result_list = []
     prob_list = lr_model.predict_proba(test_feature)
@@ -41,7 +41,7 @@ def predict_by_lr_model(test_feature, lr_model):
 
 def predict_by_lr_coef(test_feature, lr_coef):
     """
-    predict by lr_coef
+        通过模型预测
     """
     sigmoid_func = np.frompyfunc(sigmoid, 1, 1)
     return sigmoid_func(np.dot(test_feature, lr_coef))
@@ -49,7 +49,7 @@ def predict_by_lr_coef(test_feature, lr_coef):
 
 def sigmoid(x):
     """
-    sigmoid function
+        通过sigmod函数
     """
     return 1 / (1 + math.exp(-x))
 
@@ -57,9 +57,9 @@ def sigmoid(x):
 def get_auc(predict_list, test_label):
     """
     Args:
-        predict_list: model predict score list
-        test_label: label of  test data
-    auc = (sum(pos_index)-pos_num(pos_num + 1)/2)/pos_num*neg_num
+        predict_list: 预测链表
+        test_label: 测试标签
+        auc = (sum(pos_index)-pos_num(pos_num + 1)/2)/pos_num*neg_num
     """
     total_list = []
     for index in range(len(predict_list)):
@@ -80,15 +80,14 @@ def get_auc(predict_list, test_label):
             total_pos_index += count
         count += 1
     auc_score = (total_pos_index - (pos_num) * (pos_num + 1) / 2) / (pos_num * neg_num)
-    print
-    "auc:%.5f" % (auc_score)
+    print("auc:%.5f" % (auc_score))
 
 
 def get_accuary(predict_list, test_label):
     """
     Args:
-        predict_list: model predict score list
-        test_label: label of test data
+        predict_list: 测试链表
+        test_label: 测试标签
     """
     score_thr = 0.5
     right_num = 0
@@ -108,10 +107,10 @@ def get_accuary(predict_list, test_label):
 def run_check_core(test_feature, test_label, model, score_func):
     """
     Args:
-        test_feature:
-        test_label:
+        test_feature:测试特征
+        test_label:测试标签
         model: lr_coef, lr_model
-        score_func: use different model to predict
+        score_func:分数方法
     """
     predict_list = score_func(test_feature, model)
     get_auc(predict_list, test_label)
@@ -121,10 +120,10 @@ def run_check_core(test_feature, test_label, model, score_func):
 def run_check(test_file, lr_coef_file, lr_model_file, feature_num_file):
     """
     Args:
-        test_file: file to check performace
+        test_file: 测试文件
         lr_coef_file: w1,w2
-        lr_model_file: dump file
-        feature_num_file: file to record num of feature
+        lr_model_file: 输出文件
+        feature_num_file: 特征数量文件
     """
     test_feature, test_label = get_test_data(test_file, feature_num_file)
     lr_coef = np.genfromtxt(lr_coef_file, dtype=np.float32, delimiter=",")
@@ -135,8 +134,7 @@ def run_check(test_file, lr_coef_file, lr_model_file, feature_num_file):
 
 if __name__ == "__main__":
     if len(sys.argv) < 5:
-        print
-        "usage: python xx.py test_file coef_file model_file feature_num_file"
+        print("usage: python xx.py test_file coef_file model_file feature_num_file")
         sys.exit()
     else:
         test_file = sys.argv[1]
@@ -144,4 +142,3 @@ if __name__ == "__main__":
         model_file = sys.argv[3]
         feature_num_file = sys.argv[4]
         run_check(test_file, coef_file, model_file, feature_num_file)
-        # run_check("../data/test_file", "../data/lr_coef", "../data/lr_model_file", "../data/feature_num")
