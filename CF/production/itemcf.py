@@ -86,7 +86,7 @@ def cal_recom_result(sim_info, user_click):
         通过商品推荐
     Args:
         sim_info: 字典
-       user_click: 用户点击字典
+        user_click: 用户点击字典
     Return:
         dict, key:userid value dict, value_key itemid , value_value recom_score
     """

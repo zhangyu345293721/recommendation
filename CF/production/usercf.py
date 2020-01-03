@@ -38,11 +38,11 @@ def base_contribution_score():
 
 def update_contribution_score(item_user_click_count):
     """
-        更新分数
+            更新分数
     Args:
-        item_user_click_count: how many user have clicked this item
+            item_user_click_count: 多少用户点击了这个商品
     Return:
-        contribution score
+            返回分数
     """
     return 1 / math.log10(1 + item_user_click_count)
 
@@ -51,9 +51,10 @@ def update_two_contribution_score(click_time_one, click_time_two):
     """
         更新分数2
     Args:
-         differrent user action time to the same item, click_time_one,click_time_two
+         click_time_one:点击时间1
+         click_time_two:点击时间2
     Return:
-        contribution score
+        分数
     """
     delta_time = abs(click_time_two - click_time_one)
     norm_num = 60 * 60 * 24
@@ -65,9 +66,9 @@ def cal_user_sim(item_click_by_user, user_click_time):
     """
         获取具体信息
     Args:
-        item_click_by_user: dict , key:itemid value:[itemid1, itemid2]
+        item_click_by_user: 点击字典
     Return:
-        dict , key itemid , value: dict , value_key: itemid_j, value_value:simscore
+        字典
     """
     co_appear = {}
     user_click_count = {}
@@ -110,10 +111,10 @@ def cal_recom_result(user_click, user_sim):
     """
          基于用户推荐结果
     Args:
-        user_click: dict, key userid , value [itemid1, itemid2]
-        user_sim: key:userid value:[(useridj, score1),(ueridk, score2)]
+        user_click: 用户点击字典
+        user_sim: 点击字典和分数
     Return:
-        dict, key userid value:dict value_key:itemid , value_value:recom_score
+         字典：商品id
     """
     recom_result = {}
     topk_user = 3
@@ -136,7 +137,7 @@ def debug_user_sim(user_sim):
     """
         打印用户结果
     Args:
-        user_sim: key userid value:[(userid1, score1), (userid2, score2)]
+        user_sim: 用户id和分数
     """
     topk = 5
     fix_user = "1"
@@ -152,8 +153,8 @@ def debug_recom_result(item_info, recom_result):
     """
         测试用户结果
     Args:
-        item_info: key itemid value:[title, genres]
-        recom_result: key userid value dict , value key:itemid value value:recom_score
+        item_info: 商品信息
+        recom_result: 推荐结果
     """
     fix_user = "1"
     if fix_user not in recom_result:
@@ -175,10 +176,6 @@ def main_flow():
     item_click_by_user = transfer_user_click(user_click)
     user_sim = cal_user_sim(item_click_by_user, user_click_time)
     debug_user_sim(user_sim)
-    # recom_result = cal_recom_result(user_click, user_sim)
-    # print recom_result["1"]
-    # debug_recom_result(item_info, recom_result)
-
 
 if __name__ == "__main__":
     main_flow()
