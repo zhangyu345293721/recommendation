@@ -83,7 +83,7 @@ def cal_item_sim(user_click, user_click_time):
 
 def cal_recom_result(sim_info, user_click):
     """
-       通过商品推荐
+        通过商品推荐
     Args:
         sim_info: 字典
        user_click: 用户点击字典
