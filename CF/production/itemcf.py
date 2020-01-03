@@ -39,9 +39,9 @@ def update_two_contribute_score(click_time_one: int, click_time_two: int) -> flo
 def cal_item_sim(user_click, user_click_time):
     """
     Args:
-        user_click:dict ,key userid value [itemid1, itemid2]
+        user_click:用户点击字典
     Return:
-        dict, key:itemid_i, value dict, value_key itemid_j, value_value simscore
+        结果字典
     """
     co_appear = {}
     item_user_click_time = {}
@@ -110,13 +110,12 @@ def debug_itemsim(item_info, sim_info):
     """
         展示详细信息
     Args:
-        item_info: dict, key itemid value:[title, genres]
-        sim_info: dict key itemid , value dict,  key [(itemid1, simscore), (itemdi2, simscore)]
+        item_info: 商品详情字段
+        sim_info:  详细信息
     """
     fixed_itemid = "1";
     if fixed_itemid not in item_info:
-        print
-        "invalid itemid"
+        print("invalid itemid")
         return
     [title_fix, genres_fix] = item_info[fixed_itemid]
     for zuhe in sim_info[fixed_itemid][:5]:
@@ -133,14 +132,13 @@ def debug_recomresult(recom_result, item_info):
     """
         测试推荐结果
     Args:
-        recom_result: key userid value:dict , value_key:itemid , value_value:recom_score
-        item_info: dict, key itemid  value:[title, genre]
+        recom_result: 推荐结果字典
+        item_info: 商品字典
 
     """
     user_id = "1"
     if user_id not in recom_result:
-        print
-        "invalid result"
+        print("invalid result")
         return
     for zuhe in sorted(recom_result[user_id].iteritems(), key=operator.itemgetter(1), reverse=True):
         itemid, score = zuhe
@@ -157,9 +155,6 @@ def main_flow():
     item_info = reader.get_item_info("../data/movies.txt")
     sim_info = cal_item_sim(user_click, user_click_time)
     debug_itemsim(item_info, sim_info)
-    # recom_result = cal_recom_result(sim_info, user_click)
-    # print recom_result["1"]
-    # debug_recomresult(recom_result, item_info)
 
 
 if __name__ == "__main__":
