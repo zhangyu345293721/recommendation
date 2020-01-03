@@ -15,11 +15,11 @@ import operator
 def lfm_train(train_data, F, alpha, beta, step):
     """
     Args:
-        train_data: train_data for lfm
-        F: user vector len, item vector len
-        alpha:regularization factor
-        beta: learning rate
-        step: iteration num
+        train_data: 训练LFM模型的数据
+        F: 用户向量长, 物品向量长
+        alpha:规律因子
+        beta: 学习率
+        step: 迭代数
     Return:
         dict: key itemid, value:np.ndarray
         dict: key userid, value:np.ndarray
@@ -44,9 +44,9 @@ def lfm_train(train_data, F, alpha, beta, step):
 def init_model(vector_len):
     """
     Args:
-        vector_len: the len of vector
+        vector_len: 向量长度
     Return:
-         a ndarray
+         ndarray
     """
     return np.random.randn(vector_len)
 
@@ -55,10 +55,10 @@ def model_predict(user_vector, item_vector):
     """
     user_vector and item_vector distance
     Args:
-        user_vector: model produce user vector
-        item_vector: model produce item vector
+        user_vector: 用户向量
+        item_vector: 物品向量
     Return:
-         a num
+         num
     """
     res = np.dot(user_vector, item_vector) / (np.linalg.norm(user_vector) * np.linalg.norm(item_vector))
     return res
@@ -66,7 +66,7 @@ def model_predict(user_vector, item_vector):
 
 def model_train_process():
     """
-    test lfm model train
+        测试lfm模型
     """
     train_data = read.get_train_data("../data/ratings.txt")
     user_vec, item_vec = lfm_train(train_data, 50, 0.01, 0.1, 50)
@@ -77,13 +77,13 @@ def model_train_process():
 
 def give_recom_result(user_vec, item_vec, userid):
     """
-    use lfm model result give fix userid recom result
+        用LFM模型获取固定结果
     Args:
-        user_vec: lfm model result
-        item_vec:lfm model result
-        userid:fix userid
+        user_vec: LFM模型结果
+        item_vec: LFM模型结果
+        userid: 固定用户id
     Return:
-        a list:[(itemid, score), (itemid1, score1)]
+        list:[(itemid, score), (itemid1, score1)]
     """
     fix_num = 10
     if userid not in user_vec:
@@ -104,11 +104,11 @@ def give_recom_result(user_vec, item_vec, userid):
 
 def ana_recom_result(train_data, userid, recom_list):
     """
-    debug recom result for userid
+        测试结果
     Args:
-        train_data: train data for lfm model
-        userid:fix userid
-        recom_list: recom result by lfm
+        train_data: 测试模型
+        userid:固定用户id
+        recom_list: 模型推荐结果
     """
     item_info = read.get_item_info("../data/movies.txt")
     for data_instance in train_data:
