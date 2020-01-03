@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-author:zhangyu
-personal rank main algo
+    personal rank主题类
+    author:zhangyu
 """
 
 from __future__ import division
@@ -18,13 +18,13 @@ import numpy as np
 def personal_rank(graph, root, alpha, iter_num, recom_num=10):
     """
     Args
-        graph: user item graph 
-        root: the  fixed user for which to recom 
-        alpha: the prob to go to random walk 
-        iter_num:iteration num 
-        recom_num: recom item num 
+        graph: 用户特征图
+        root:  固定用户推荐哪个
+        alpha: 随机走动
+        iter_num:迭代数量
+        recom_num: 推荐商品数量
     Return:
-        a dict, key itemid, value pr
+        字典
     """
     rank = {}
     rank = {point: 0 for point in graph}
@@ -57,15 +57,15 @@ def personal_rank(graph, root, alpha, iter_num, recom_num=10):
 
 
 def personal_rank_mat(graph, root, alpha, recom_num=10):
-    """
-    Args:
-        graph:user item graph
-        root:the fix user to recom
-        alpha:the prob to random walk
-        recom_num:recom item num
+   """
+    Args
+        graph: 用户特征图
+        root:  固定用户推荐哪个
+        alpha: 随机走动
+        iter_num:迭代数量
+        recom_num: 推荐商品数量
     Return:
-        a dict, key: itemid, value: pr score
-    A*r = r0
+        字典
     """
     m, vertex, address_dict = mat_util.graph_to_m(graph)
     if root not in address_dict:
@@ -93,7 +93,7 @@ def personal_rank_mat(graph, root, alpha, recom_num=10):
 
 def get_one_user_recom():
     """
-    give one fix_user recom result
+        获取用户推荐结果
     """
     user = "1"
     alpha = 0.8
@@ -101,22 +101,10 @@ def get_one_user_recom():
     iter_num = 100
     recom_result = personal_rank(graph, user, alpha, iter_num, 100)
     return recom_result
-    """
-    item_info = read.get_item_info("../data/movies.txt")
-    for itemid in graph[user]:
-        pure_itemid = itemid.split("_")[1]
-        print item_info[pure_itemid]
-    print "result---"
-    for itemid in recom_result:
-        pure_itemid = itemid.split("_")[1]
-        print item_info[pure_itemid]
-        print recom_result[itemid]
-    """
-
 
 def get_one_user_by_mat():
     """
-    give one fix user by mat
+        获取固定用户
     """
     user = "1"
     alpha = 0.8
