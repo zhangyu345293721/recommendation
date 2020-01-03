@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-author:zhangyu
-train wd model
+    训练wd模型
+    author:zhangyu
 """
 from __future__ import division
 import tensorflow as tf
@@ -15,7 +15,7 @@ def get_feature_column():
     age,workclass,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,label
     get wide feature and deep feature
     Return:
-        wide feature column, deep feature column
+        wide feature  的列, deep feature 的列
     """
     age = tf.feature_column.numeric_column("age")
     education_num = tf.feature_column.numeric_column("education-num")
@@ -59,11 +59,11 @@ def get_feature_column():
 def build_model_estimator(wide_column, deep_column, model_folder):
     """
     Args:
-        wide_column: wide feature
-        deep_column:deep feature
-        model_folder: origin model output folder
+        wide_column: wide特征
+        deep_column:deep特征
+        model_folder: 原始模型和输出文件
     Return:
-        model_es, serving_input_fn
+        输出模型
     """
     model_es = tf.estimator.DNNLinearCombinedClassifier(
         model_dir=model_folder,
@@ -83,13 +83,13 @@ def build_model_estimator(wide_column, deep_column, model_folder):
 def input_fn(data_file, re_time, shuffle, batch_num, predict):
     """
     Args:
-        data_file:input data , train_data, test_data
-        re_time:time to repeat the data file
-        shuffle: shuffle or not [true or false]
-        batch_num:
-        predict: train or test [true or false]
+        data_file:数据文件
+        re_time:间隔重复时间长度
+        shuffle: 是否打乱
+        batch_num:批次号
+        predict: 是否预测
     Return:
-        train_feature, train_label or test_feature
+        特征
     """
     _CSV_COLUMN_DEFAULTS = [[0], [''], [0], [''], [0], [''], [''], [''], [''], [''],
                             [0], [0], [0], [''], ['']]
@@ -131,11 +131,11 @@ def input_fn(data_file, re_time, shuffle, batch_num, predict):
 def train_wd_model(model_es, train_file, test_file, model_export_folder, serving_input_fn):
     """
     Args:
-        model_es: wd estimator
-        train_file:
-        test_file:
-        model_export_folder: model export for tf serving
-        serving_input_fn: function for model export
+        model_es: wd评估
+        train_file:训练文件
+        test_file:测试文件
+        model_export_folder: 输出文件夹
+        serving_input_fn: 模型文件输出
     """
     total_run = 6
     for index in range(total_run):
@@ -147,8 +147,8 @@ def train_wd_model(model_es, train_file, test_file, model_export_folder, serving
 def get_auc(predict_list, test_label):
     """
     Args:
-        predict_list: model predict score list
-        test_label: label of  test data
+        predict_list: 模型预测分数链表
+        test_label:   测试标签
     auc = (sum(pos_index)-pos_num(pos_num + 1)/2)/pos_num*neg_num
     """
     total_list = []
@@ -175,7 +175,7 @@ def get_auc(predict_list, test_label):
 
 def get_test_label(test_file):
     """
-    get label of  test_file
+        获取测试文件
     """
     if not os.path.exists(test_file):
         return []
@@ -205,7 +205,7 @@ def get_test_label(test_file):
 
 def test_model_performance(model_es, test_file):
     """
-    test model auc in test data
+        通过测试文件检验模型准确率
     """
     test_label = get_test_label(test_file)
     result = model_es.predict(input_fn=lambda: input_fn(test_file, 1, False, 100, True))
@@ -219,10 +219,10 @@ def test_model_performance(model_es, test_file):
 def run_main(train_file, test_file, model_folder, model_export_folder):
     """
     Args:
-        train_file: 
-        test_file: 
-        model_folder: origin model floder to put train model
-        model_export_folder: for tf serving
+        train_file: 训练文件
+        test_file: 测试文件
+        model_folder: 模型文件
+        model_export_folder: 模型输出文件
     """
     wide_column, deep_column = get_feature_column()
     model_es, serving_input_fn = build_model_estimator(wide_column, deep_column, model_folder)
