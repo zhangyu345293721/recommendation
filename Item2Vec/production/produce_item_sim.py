@@ -1,7 +1,6 @@
 # -*-coding:utf8-*-
 """
 author:zhangyu
-produce item sim file
 """
 
 import os
@@ -13,7 +12,7 @@ import sys
 def load_item_vec(input_file):
     """
     Args:
-        input_file: item vec file
+        input_file: 词向量文件
     Return:
         dict key:itemid value:np.array([num1, num2....])
     """
@@ -40,9 +39,9 @@ def load_item_vec(input_file):
 def cal_item_sim(item_vec, itemid, output_file):
     """
     Args
-        item_vec:item embedding vector
-        itemid:fixed itemid to clac item sim
-        output_file: the file to store result
+        item_vec:词嵌入向量
+        itemid:固定的标致
+        output_file: 输出文件
     """
     if itemid not in item_vec:
         return
