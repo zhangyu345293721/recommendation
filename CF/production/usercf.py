@@ -31,7 +31,7 @@ def transfer_user_click(user_click):
 
 def base_contribution_score():
     """
-          基于用户来打分
+       基于用户来打分
     """
     return 1
 
@@ -108,7 +108,7 @@ def cal_user_sim(item_click_by_user, user_click_time):
 
 def cal_recom_result(user_click, user_sim):
     """
-       基于用户推荐结果
+         基于用户推荐结果
     Args:
         user_click: dict, key userid , value [itemid1, itemid2]
         user_sim: key:userid value:[(useridj, score1),(ueridk, score2)]
