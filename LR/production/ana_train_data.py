@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-author:zhangyu
-feature selection and data selection
+    特征选择和数据选择
+    author:zhangyu
 """
 import pandas as pd
 import numpy as np
@@ -12,8 +12,8 @@ import sys
 def get_input(input_train_file, input_test_file):
     """
     Args:
-        input_train_file:
-        input_test_file:
+        input_train_file:输入训练文件
+        input_test_file: 输入测试文件
     Return:
          pd.DataFrame train_data
          pd.DataFrame test_data
@@ -35,7 +35,7 @@ def get_input(input_train_file, input_test_file):
 def label_trans(x):
     """
     Args:
-        x: each element in fix col of df
+        x: 一列中某个元素
     """
     if x == "<=50K":
         return "0"
@@ -47,8 +47,8 @@ def label_trans(x):
 def process_label_feature(lable_feature_str, df_in):
     """
     Args:
-        lable_feature_str:"label"
-        df_in:DataFrameIn
+        lable_feature_str:标签特征
+        df_in:df输入
     """
     df_in.loc[:, lable_feature_str] = df_in.loc[:, lable_feature_str].apply(label_trans)
 
@@ -71,8 +71,8 @@ def dict_trans(dict_in):
 def dis_to_feature(x, feature_dict):
     """
     Args:
-        x: element
-        feature_dict: pos dict
+        x: 元素
+        feature_dict: 特征字典
     Return:
         a str as "0,1,0"
     """
@@ -88,12 +88,11 @@ def dis_to_feature(x, feature_dict):
 def process_dis_feature(feature_str, df_train, df_test):
     """
     Args:
-        feature_str: feature_str
-        df_train: train_data_df
-        df_test: test_data_df
+        feature_str: 特征字符串
+        df_train: 训练模型
+        df_test: df测试数据
     Return:
-        the dim of the feature output
-    process dis feature for lr train
+        特征输出
     """
     origin_dict = df_train.loc[:, feature_str].value_counts().to_dict()
     feature_dict = dict_trans(origin_dict)
@@ -108,7 +107,7 @@ def list_trans(input_dict):
         input_dict:{'count': 30162.0, 'std': 13.134664776855985, 'min': 17.0, 'max': 90.0, '50%': 37.0,
                     '25%': 28.0, '75%': 47.0, 'mean': 38.437901995888865}
     Return:
-         a list, [0.1, 0.2, 0.3, 0.4, 0.5]
+         list
     """
     output_list = [0] * 5
     key_list = ["min", "25%", "50%", "75%", "max"]
@@ -125,10 +124,10 @@ def list_trans(input_dict):
 def con_to_feature(x, feature_list):
     """
     Args:
-        x: element
-        feature_list: list for feature trans
+        x: 元素
+        feature_list: 特征训练链表
     Return:
-        str, "1_0_0_0"
+        str: 字符串
     """
     feature_len = len(feature_list) - 1
     result = [0] * feature_len
@@ -142,12 +141,11 @@ def con_to_feature(x, feature_list):
 def process_con_feature(feature_str, df_train, df_test):
     """
     Args:
-        feature_str: feature_str
-        df_train: train_data_df
-        df_test: test_data_df
+        feature_str: 特征字符串
+        df_train: 训练数据df
+        df_test:   测试数据df
     Return:
-        the dim of the feature output
-    process con feature for lr train
+        特征输出
     """
     origin_dict = df_train.loc[:, feature_str].describe().to_dict()
     feature_list = list_trans(origin_dict)
@@ -158,8 +156,7 @@ def process_con_feature(feature_str, df_train, df_test):
 
 def output_file(df_in, out_file):
     """
-
-    write data of df_in to out_file
+        数据写入到文件
     """
     fw = open(out_file, "w+")
     for row_index in df_in.index:
@@ -171,10 +168,10 @@ def output_file(df_in, out_file):
 def add(str_one, str_two):
     """
     Args:
-        str_one:"0,0,1,0"
-        str_two:"1,0,0,0"
+        str_one:字符串1："0,0,1,0"
+        str_two:字符串2："1,0,0,0"
     Return:
-        str such as"0,0,1,0,0"
+        字符串："0,0,1,0,0"
     """
     list_one = str_one.split(",")
     list_two = str_two.split(",")
@@ -196,14 +193,14 @@ def add(str_one, str_two):
 def combine_feature(feature_one, feature_two, new_feature, train_data_df, test_data_df, feature_num_dict):
     """
     Args:
-        feature_one:
-        feature_two:
-        new_feature: combine feature name
-        train_data_df:
-        test_data_df:
-        feature_num_dict: ndim of every feature, key feature name value len of the dim
+        feature_one:特征1
+        feature_two:特征2
+        new_feature: 组合新特征
+        train_data_df:训练数据df
+        test_data_df:测试数据df
+        feature_num_dict: 每一个特征, 关键特征长度
     Return:
-        new_feature_num
+        新特征数
     """
     train_data_df[new_feature] = train_data_df.apply(lambda row: add(row[feature_one], row[feature_two]), axis=1)
     test_data_df[new_feature] = test_data_df.apply(lambda row: add(row[feature_one], row[feature_two]), axis=1)
@@ -219,11 +216,11 @@ def combine_feature(feature_one, feature_two, new_feature, train_data_df, test_d
 def ana_train_data(input_train_data, input_test_data, out_train_file, out_test_file, feature_num_file):
     """
     Args:
-        input_train_data:
-        input_test_data:
-        out_train_file:
-        out_test_file:
-        feature_num_file:
+        input_train_data:输入训练特征
+        input_test_data:输入特长特征
+        out_train_file:输出训练文件
+        out_test_file:输出测试文件
+        feature_num_file:特征数量文件
     """
     train_data_df, test_data_df = get_input(input_train_data, input_test_data)
     label_feature_str = "label"
