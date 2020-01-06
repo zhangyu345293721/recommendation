@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
     基于商品的协同过滤算法
-    author:zhangyu
+    @author:zhangyu
 """
 from __future__ import division
 import sys
@@ -38,6 +38,7 @@ def update_two_contribute_score(click_time_one: int, click_time_two: int) -> flo
 
 def cal_item_sim(user_click, user_click_time):
     """
+        用户点击
     Args:
         user_click:用户点击字典
     Return:
