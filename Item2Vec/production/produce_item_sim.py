@@ -80,4 +80,3 @@ if __name__ == "__main__":
         inputfile = sys.argv[1]
         outputfile = sys.argv[2]
         run_main(inputfile, outputfile)
-        # run_main("../data/item_vec.txt", "../data/sim_result.txt")
