@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
 author:zhangyu
-lfm model train main function
+训练LFM模型
 """
 
 import numpy as np
