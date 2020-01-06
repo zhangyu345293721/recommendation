@@ -9,11 +9,11 @@ import os
 
 def get_item_info(input_file):
     """
-    get item info:[title, genre]
+        获取商品信息
     Args:
-        input_file:item info file
+        输入文件
     Return:
-        a dict: key itemid, value:[title, genre]
+       商品信息字典
     """
     if not os.path.exists(input_file):
         return {}
@@ -40,11 +40,11 @@ def get_item_info(input_file):
 
 def get_ave_score(input_file):
     """
-    get item ave rating score
+        获取点击率分数
     Args:
-        input file: user rating file
+        输入文件
     Return:
-        a dict, key:itemid, value:ave_score
+        商品id和字典id
     """
     if not os.path.exists(input_file):
         return {}
@@ -71,11 +71,11 @@ def get_ave_score(input_file):
 
 def get_train_data(input_file):
     """
-    get train data for LFM model train
+        训练LFM模型
     Args:
-        input_file: user item rating file
+        输入文件
     Return:
-        a list:[(userid, itemid, label), (userid1, itemid1, label)]
+        链表
     """
     if not os.path.exists(input_file):
         return []
