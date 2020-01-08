@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    训练wd模型
-    author:zhangyu
+训练wd模型
+author:zhangyu
 """
 from __future__ import division
 import tensorflow as tf
@@ -12,8 +12,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 def get_feature_column():
     """
-    age,workclass,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,label
-    get wide feature and deep feature
     Return:
         wide feature  的列, deep feature 的列
     """
