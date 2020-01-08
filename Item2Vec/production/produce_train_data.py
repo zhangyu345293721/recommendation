@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
+从数据中训练Item2Vec
 author:zhangyu
-produce train data for item2vec
 """
 
 import os
@@ -48,4 +48,3 @@ if __name__ == "__main__":
         inputfile = sys.argv[1]
         outputfile = sys.argv[2]
         produce_train_data(inputfile, outputfile)
-        # produce_train_data("../data/ratings.txt", "../data/train_data.txt")
