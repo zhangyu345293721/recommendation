@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    personal rank主题类
-    author:zhangyu
+personal rank主题类
+author:zhangyu
 """
 
 from __future__ import division
