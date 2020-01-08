@@ -1,6 +1,6 @@
 #-*-coding:utf8-*-
 """
-    author:zhangyu
+author:zhangyu
 """
 
 from __future__ import division
