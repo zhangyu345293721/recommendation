@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    测试gdbt模型
-    author:zhangyu
+测试gdbt模型
+author:zhangyu
 """
 from __future__ import division
 import numpy as np
