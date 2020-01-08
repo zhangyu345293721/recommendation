@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-   读取文件
-   author:zhangyu
+读取文件
+author:zhangyu
 """
 import os
 
