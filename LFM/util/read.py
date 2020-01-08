@@ -1,7 +1,7 @@
 #-*-coding:utf8-*-
 """
+工具类
 author:zhangyu
-util function
 """
 
 import os
