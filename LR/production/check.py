@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    author:zhangyu
-    用线性模型检查文件，在测试中
+author:zhangyu
+用线性模型检查文件，在测试中
 """
 from __future__ import division
 import numpy as np
