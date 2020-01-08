@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    特征选择和数据选择
-    author:zhangyu
+特征选择和数据选择
+author:zhangyu
 """
 import pandas as pd
 import numpy as np
@@ -35,7 +35,7 @@ def get_input(input_train_file, input_test_file):
 def label_trans(x):
     """
     Args:
-        x: each element in fix col of df
+        x: 每个元素
     """
     if x == "<=50K":
         return "0"
