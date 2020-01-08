@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    基于用户的协同过滤算法
-    author:zhangyu
+基于用户的协同过滤算法
+author:zhangyu
 """
 from __future__ import division
 import sys
