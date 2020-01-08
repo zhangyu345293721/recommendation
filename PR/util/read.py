@@ -1,7 +1,7 @@
 #-*-coding:utf8-*-
 """
-    从用户数据中得到图
-    author:zhangyu
+从用户数据中得到图
+author:zhangyu
 """
 
 import os
