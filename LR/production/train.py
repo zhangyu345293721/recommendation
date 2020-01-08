@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    训练逻辑回归模型
-    author:zhangyu
+训练逻辑回归模型
+author:zhangyu
 """
 import sys
 
