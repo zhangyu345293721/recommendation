@@ -5,7 +5,6 @@ author:zhangyu
 """
 import os
 
-
 def get_user_click(rating_file) -> dict:
     """
         获取用户点击链表
