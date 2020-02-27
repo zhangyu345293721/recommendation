@@ -1,4 +1,4 @@
-# recommendation 
+#  recommendation 
   测试数据集来源: uci,kaggle,sklearn
 - LFM    基于邻域个性化召回算法
 - CF 协同过滤算法  基于item或user
