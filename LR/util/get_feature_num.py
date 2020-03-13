@@ -2,7 +2,6 @@
 
 import os
 
-
 def get_feature_num(feature_num_file):
     if not os.path.exists(feature_num_file):
         return 0
