@@ -114,7 +114,3 @@ def get_train_data(input_file):
         train_data += [(userid, zuhe[0], 0) for zuhe in sorted_neg_list]
     return train_data
 
-
-
-
-
