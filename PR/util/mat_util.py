@@ -9,7 +9,6 @@ import numpy as np
 import PR.read as read
 import sys
 
-
 def graph_to_m(graph):
     """
     Args:
@@ -65,7 +64,6 @@ def mat_all_point(m_mat, vertex, alpha):
     data = np.array(data)
     eye_t = coo_matrix((data, (row, col)), shape=(total_len, total_len))
     return eye_t.tocsr() - alpha*m_mat.tocsr().transpose()
-
 
 if __name__ == "__main__":
     graph = read.get_graph_from_data("../data/log.txt")
