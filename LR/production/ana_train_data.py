@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    特征选择和数据选择
-    author:zhangyu
+特征选择和数据选择
+author:zhangyu
 """
 import pandas as pd
 import numpy as np
