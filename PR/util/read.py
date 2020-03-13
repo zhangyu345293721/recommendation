@@ -6,7 +6,6 @@ author:zhangyu
 
 import os
 
-
 def get_graph_from_data(input_file):
     """
     Args:
