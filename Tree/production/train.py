@@ -1,7 +1,7 @@
 # -*-coding:utf8-*-
 """
-    训练gdbt模型
-    author:zhangyu
+训练gdbt模型
+author:zhangyu
 """
 import Tree.xgboost as xgb
 import sys
@@ -41,7 +41,7 @@ def train_tree_model_core(train_mat, tree_depth, tree_num, learning_rate):
 def choose_parameter():
     """
     Return:
-         链表
+        链表
     """
     result_list = []
     tree_depth_list = [4, 5, 6]
