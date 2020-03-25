@@ -69,7 +69,6 @@ def get_item_info(item_file) -> dict:
     fp.close()
     return item_info
 
-
 if __name__ == "__main__":
     item_info = get_item_info("../data/movies.txt")
     print(item_info["11"])
