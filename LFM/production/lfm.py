@@ -2,6 +2,7 @@
 """
 author:zhangyu
 训练LFM模型
+email:zhangyuyu417@gmail.com
 """
 
 import numpy as np
