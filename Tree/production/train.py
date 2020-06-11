@@ -2,6 +2,8 @@
 """
 训练gdbt模型
 author:zhangyu
+email:zhangyuyu417@gmail.com
+
 """
 import Tree.xgboost as xgb
 import sys
