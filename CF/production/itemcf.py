@@ -2,6 +2,7 @@
 """
 基于商品的协同过滤算法
 @author:zhangyu
+email:zhangyuyu417@gmail.com
 """
 from __future__ import division
 import sys
