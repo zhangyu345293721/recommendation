@@ -2,6 +2,8 @@
 """
 测试gdbt模型
 author:zhangyu
+email:zhangyuyu417@gmail.com
+
 """
 from __future__ import division
 import numpy as np
