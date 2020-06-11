@@ -2,6 +2,8 @@
 """
 工具类
 author:zhangyu
+email:zhangyuyu417@gmail.com
+
 """
 
 import os
