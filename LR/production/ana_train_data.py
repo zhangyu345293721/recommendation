@@ -2,6 +2,8 @@
 """
 特征选择和数据选择
 author:zhangyu
+email:zhangyuyu417@gmail.com
+
 """
 import pandas as pd
 import numpy as np
