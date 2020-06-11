@@ -2,6 +2,8 @@
 """
 从用户数据中得到图
 author:zhangyu
+email:zhangyuyu417@gmail.com
+
 """
 
 import os
