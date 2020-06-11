@@ -2,6 +2,8 @@
 """
 author:zhangyu
 用线性模型检查文件，在测试中
+email:zhangyuyu417@gmail.com
+
 """
 from __future__ import division
 import numpy as np
