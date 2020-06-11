@@ -2,6 +2,8 @@
 """
 训练wd模型
 author:zhangyu
+email:zhangyuyu417@gmail.com
+
 """
 from __future__ import division
 import tensorflow as tf
