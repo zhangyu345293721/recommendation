@@ -2,6 +2,8 @@
 """
 训练逻辑回归模型
 author:zhangyu
+email:zhangyuyu417@gmail.com
+
 """
 import sys
 
