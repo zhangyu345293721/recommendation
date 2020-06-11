@@ -2,6 +2,7 @@
 """
 从数据中训练Item2Vec
 author:zhangyu
+email:zhangyuyu417@gmail.com
 """
 
 import os
