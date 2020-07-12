@@ -1,4 +1,4 @@
-#  recommendation 
+#  Recommendation 
   数据集来源: uci, kaggle , sklearn
 - LFM    基于邻域个性化召回算法
 - CF    1) 协同过滤算法    2) 基于item或user
