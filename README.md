@@ -7,5 +7,5 @@
 - LR            线性回归
 - PR personal rank  个性排名
 - Tree  决策树
-- WD    排序模型     Wide And Deep
+- WD    排序模型    Wide And Deep
 
