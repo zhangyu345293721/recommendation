@@ -1,6 +1,6 @@
 # -*-coding:utf8-*-
 """
-训练wd模型
+ 训练wd模型
 author:zhangyu
 email:zhangyuyu417@gmail.com
 
