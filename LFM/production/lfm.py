@@ -34,7 +34,7 @@ def lfm_train(train_data, F, alpha, beta, step):
                 user_vec[userid] = init_model(F)
             if itemid not in item_vec:
                 item_vec[itemid] = init_model(F)
-            delta = label - model_predict(user_vec[userid], item_vec[itemid])  # 视频讲解中此处代码有误，应该每个样本都更新
+            delta = label - model_predict(user_vec[userid], item_vec[itemid]) 
             for index in range(F):
                 user_vec[userid][index] += beta * (delta * item_vec[itemid][index] - alpha * user_vec[userid][index])
                 item_vec[itemid][index] += beta * (delta * user_vec[userid][index] - alpha * item_vec[itemid][index])
