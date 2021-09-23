@@ -15,7 +15,7 @@ sys.path.append("../")
 import LR.util.get_feature_num as gf
 
 
-def get_test_data(test_file, feature_num_file):
+def get_test_data(test_file: str, feature_num_file: str):
     """
     Args:
         test_file:测试文件

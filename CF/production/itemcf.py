@@ -47,13 +47,13 @@ def cal_item_sim(user_click, user_click_time):
     """
     co_appear = {}
     item_user_click_time = {}
-    for user, itemlist in user_click.items():
-        for index_i in range(0, len(itemlist)):
-            itemid_i = itemlist[index_i]
+    for user, item_list in user_click.items():
+        for index_i in range(0, len(item_list)):
+            itemid_i = item_list[index_i]
             item_user_click_time.setdefault(itemid_i, 0)
             item_user_click_time[itemid_i] += 1
-            for index_j in range(index_i + 1, len(itemlist)):
-                itemid_j = itemlist[index_j]
+            for index_j in range(index_i + 1, len(item_list)):
+                itemid_j = item_list[index_j]
                 if user + "_" + itemid_i not in user_click_time:
                     click_time_one = 0
                 else:
@@ -93,44 +93,43 @@ def cal_recom_result(sim_info, user_click):
         dict, key:userid value dict, value_key itemid , value_value recom_score
     """
     recent_click_num = 3
-    topk = 5
+    top_k = 5
     recom_info = {}
     for user in user_click:
         click_list = user_click[user]
         recom_info.setdefault(user, {})
-        for itemid in click_list[:recent_click_num]:
-            if itemid not in sim_info:
+        for item_id in click_list[:recent_click_num]:
+            if item_id not in sim_info:
                 continue
-            for itemsimzuhe in sim_info[itemid][:topk]:
-                itemsimid = itemsimzuhe[0]
-                itemsimscore = itemsimzuhe[1]
-                recom_info[user][itemsimid] = itemsimscore
+            for item_sim_info in sim_info[item_id][:top_k]:
+                item_sim_id = item_sim_info[0]
+                item_sim_score = item_sim_info[1]
+                recom_info[user][item_sim_id] = item_sim_score
     return recom_info
 
 
-def debug_itemsim(item_info, sim_info):
+def debug_item_sim(item_info, sim_info):
     """
         展示详细信息
     Args:
         item_info: 商品详情字段
         sim_info:  详细信息
     """
-    fixed_itemid = "1";
-    if fixed_itemid not in item_info:
+    fixed_item_id = "1";
+    if fixed_item_id not in item_info:
         print("invalid itemid")
         return
-    [title_fix, genres_fix] = item_info[fixed_itemid]
-    for zuhe in sim_info[fixed_itemid][:5]:
-        itemid_sim = zuhe[0]
-        sim_score = zuhe[1]
-        if itemid_sim not in item_info:
+    [title_fix, genres_fix] = item_info[fixed_item_id]
+    for info in sim_info[fixed_item_id][:5]:
+        item_id_sim = info[0]
+        sim_score = info[1]
+        if item_id_sim not in item_info:
             continue
-        [title, genres] = item_info[itemid_sim]
-        print
-        title_fix + "\t" + genres_fix + "\tsim:" + title + "\t" + genres + "\t" + str(sim_score)
+        [title, genres] = item_info[item_id_sim]
+        print(title_fix + "\t" + genres_fix + "\tsim:" + title + "\t" + genres + "\t" + str(sim_score))
 
 
-def debug_recomresult(recom_result, item_info):
+def debug_recom_result(recom_result, item_info):
     """
         测试推荐结果
     Args:
@@ -142,11 +141,11 @@ def debug_recomresult(recom_result, item_info):
     if user_id not in recom_result:
         print("invalid result")
         return
-    for zuhe in sorted(recom_result[user_id].iteritems(), key=operator.itemgetter(1), reverse=True):
-        itemid, score = zuhe
-        if itemid not in item_info:
+    for recom in sorted(recom_result[user_id].iteritems(), key=operator.itemgetter(1), reverse=True):
+        item_id, score = recom
+        if item_id not in item_info:
             continue
-        print(",".join(item_info[itemid]) + "\t" + str(score))
+        print(",".join(item_info[item_id]) + "\t" + str(score))
 
 
 def main_flow():
@@ -156,7 +155,7 @@ def main_flow():
     user_click, user_click_time = reader.get_user_click("../data/ratings.txt")
     item_info = reader.get_item_info("../data/movies.txt")
     sim_info = cal_item_sim(user_click, user_click_time)
-    debug_itemsim(item_info, sim_info)
+    debug_item_sim(item_info, sim_info)
 
 
 if __name__ == "__main__":

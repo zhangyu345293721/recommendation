@@ -64,7 +64,7 @@ def dict_trans(dict_in):
     """
     output_dict = {}
     index = 0
-    for zuhe in sorted(dict_in.iteritems(), key=operator.itemgetter(1), reverse=True):
+    for zuhe in sorted(dict_in.items(), key=operator.itemgetter(1), reverse=True):
         output_dict[zuhe[0]] = index
         index += 1
     return output_dict

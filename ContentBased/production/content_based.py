@@ -1,4 +1,3 @@
-# -*-coding:utf8-*-
 """
 author:zhangyu
 description:获取线上和线下的推荐

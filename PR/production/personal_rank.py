@@ -59,16 +59,16 @@ def personal_rank(graph, root, alpha, iter_num, recom_num=10):
 
 
 def personal_rank_mat(graph, root, alpha, recom_num=10):
-   """
-    Args
-        graph: 用户特征图
-        root:  固定用户推荐哪个
-        alpha: 随机走动
-        iter_num:迭代数量
-        recom_num: 推荐商品数量
-    Return:
-        字典
     """
+     Args
+         graph: 用户特征图
+         root:  固定用户推荐哪个
+         alpha: 随机走动
+         iter_num:迭代数量
+         recom_num: 推荐商品数量
+     Return:
+         字典
+     """
     m, vertex, address_dict = mat_util.graph_to_m(graph)
     if root not in address_dict:
         return {}
@@ -103,6 +103,7 @@ def get_one_user_recom():
     iter_num = 100
     recom_result = personal_rank(graph, user, alpha, iter_num, 100)
     return recom_result
+
 
 def get_one_user_by_mat():
     """

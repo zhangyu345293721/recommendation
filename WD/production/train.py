@@ -195,10 +195,8 @@ def get_test_label(test_file):
         elif label_str == "<=50K":
             test_label_list.append(0)
         else:
-            print
-            label_str
-            print
-            "error"
+            print(label_str)
+            print("error")
     fp.close()
     return test_label_list
 

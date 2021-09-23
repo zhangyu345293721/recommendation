@@ -4,8 +4,10 @@
 author:zhangyu
 """
 import os
+from typing import Tuple, Dict
 
-def get_user_click(rating_file) -> dict:
+
+def get_user_click(rating_file: str) -> Dict:
     """
         获取用户点击链表
     Args:
@@ -26,49 +28,52 @@ def get_user_click(rating_file) -> dict:
         item = line.strip().split(',')
         if len(item) < 4:
             continue
-        [userid, itemid, rating, timestamp] = item
-        if userid + "_" + itemid not in user_click_time:
-            user_click_time[userid + "_" + itemid] = int(timestamp)
+        [user_id, item_id, rating, timestamp] = item
+        if user_id + "_" + item_id not in user_click_time:
+            user_click_time[user_id + "_" + item_id] = int(timestamp)
         if float(rating) < 3.0:
             continue
-        if userid not in user_click:
-            user_click[userid] = []
-        user_click[userid].append(itemid)
+        if user_id not in user_click:
+            user_click[user_id] = []
+        user_click[user_id].append(item_id)
     fp.close()
     return user_click, user_click_time
 
 
-def get_item_info(item_file) -> dict:
+def get_item_info(item_file: str) -> Tuple[Dict, Dict]:
     """
         通过文件获取点击率
     Args:
         item_file:输入文件
     Return:
-        字典
+        Tuple[Dict,Dict]
     """
     if not os.path.exists(item_file):
         return {}
-    num = 0
+    line_num = 0
     item_info = {}
     fp = open(item_file)
     for line in fp:
-        if num == 0:
-            num += 1
+        if line_num == 0:
+            line_num += 1
             continue
         item = line.strip().split(',')
         if len(item) < 3:
             continue
         if len(item) == 3:
-            [itemid, title, genres] = item
+            [item_id, title, genres] = item
         elif len(item) > 3:
-            itemid = item[0]
+            item_id = item[0]
             genres = item[-1]
             title = ",".join(item[1:-1])
-        if itemid not in item_info:
-            item_info[itemid] = [title, genres]
+        if item_id not in item_info:
+            item_info[item_id] = [title, genres]
     fp.close()
     return item_info
 
+
 if __name__ == "__main__":
     item_info = get_item_info("../data/movies.txt")
-    print(item_info["11"])
+    print(item_info)
+    d = get_user_click('../data/ratings.txt')
+    print(d)

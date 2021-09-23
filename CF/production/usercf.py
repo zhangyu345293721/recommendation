@@ -24,9 +24,9 @@ def transfer_user_click(user_click):
     item_click_by_user = {}
     for user in user_click:
         item_list = user_click[user]
-        for itemid in item_list:
-            item_click_by_user.setdefault(itemid, [])
-            item_click_by_user[itemid].append(user)
+        for item_id in item_list:
+            item_click_by_user.setdefault(item_id, [])
+            item_click_by_user[item_id].append(user)
     return item_click_by_user
 
 
@@ -73,21 +73,21 @@ def cal_user_sim(item_click_by_user, user_click_time):
     """
     co_appear = {}
     user_click_count = {}
-    for itemid, user_list in item_click_by_user.items():
+    for item_id, user_list in item_click_by_user.items():
         for index_i in range(0, len(user_list)):
             user_i = user_list[index_i]
             user_click_count.setdefault(user_i, 0)
             user_click_count[user_i] += 1
-            if user_i + "_" + itemid not in user_click_time:
+            if user_i + "_" + item_id not in user_click_time:
                 click_time_one = 0
             else:
-                click_time_one = user_click_time[user_i + "_" + itemid]
+                click_time_one = user_click_time[user_i + "_" + item_id]
             for index_j in range(index_i + 1, len(user_list)):
                 user_j = user_list[index_j]
-                if user_j + "_" + itemid not in user_click_time:
+                if user_j + "_" + item_id not in user_click_time:
                     click_time_two = 0
                 else:
-                    click_time_two = user_click_time[user_j + "_" + itemid]
+                    click_time_two = user_click_time[user_j + "_" + item_id]
                 co_appear.setdefault(user_i, {})
                 co_appear[user_i].setdefault(user_j, 0)
                 co_appear[user_i][user_j] += update_two_contribution_score(click_time_one, click_time_two)
@@ -177,6 +177,7 @@ def main_flow():
     item_click_by_user = transfer_user_click(user_click)
     user_sim = cal_user_sim(item_click_by_user, user_click_time)
     debug_user_sim(user_sim)
+
 
 if __name__ == "__main__":
     main_flow()
