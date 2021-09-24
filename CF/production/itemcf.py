@@ -6,6 +6,7 @@ email:zhangyuyu417@gmail.com
 """
 from __future__ import division
 import sys
+from typing import Dict
 
 sys.path.append("../util")
 import CF.util.reader as reader
@@ -37,7 +38,7 @@ def update_two_contribute_score(click_time_one: int, click_time_two: int) -> flo
     return 1 / (1 + delata_time)
 
 
-def cal_item_sim(user_click, user_click_time):
+def cal_item_sim(user_click: Dict, user_click_time: Dict) -> Dict:
     """
         用户点击
     Args:
@@ -77,20 +78,20 @@ def cal_item_sim(user_click, user_click_time):
             item_sim_score.setdefault(itemid_i, {})
             item_sim_score[itemid_i].setdefault(itemid_j, 0)
             item_sim_score[itemid_i][itemid_j] = sim_score
-    for itemid in item_sim_score:
-        item_sim_score_sorted[itemid] = sorted(item_sim_score[itemid].iteritems(), key= \
-            operator.itemgetter(1), reverse=True)
+    for item_id in item_sim_score:
+        item_sim_score_sorted[item_id] = sorted(item_sim_score[item_id].items(), key=operator.itemgetter(1),
+                                                reverse=True)
     return item_sim_score_sorted
 
 
-def cal_recom_result(sim_info, user_click):
+def cal_recom_result(sim_info: Dict, user_click: Dict) -> Dict:
     """
         通过商品推荐
     Args:
         sim_info: 字典
         user_click: 用户点击字典
     Return:
-        dict, key:userid value dict, value_key itemid , value_value recom_score
+        dict, key:user_id value dict, value_key item_id , value_value recom_score
     """
     recent_click_num = 3
     top_k = 5
@@ -108,16 +109,16 @@ def cal_recom_result(sim_info, user_click):
     return recom_info
 
 
-def debug_item_sim(item_info, sim_info):
+def debug_item_sim(item_info, sim_info) -> None:
     """
         展示详细信息
     Args:
         item_info: 商品详情字段
         sim_info:  详细信息
     """
-    fixed_item_id = "1";
+    fixed_item_id = "1"
     if fixed_item_id not in item_info:
-        print("invalid itemid")
+        print("invalid item_id")
         return
     [title_fix, genres_fix] = item_info[fixed_item_id]
     for info in sim_info[fixed_item_id][:5]:
@@ -129,7 +130,7 @@ def debug_item_sim(item_info, sim_info):
         print(title_fix + "\t" + genres_fix + "\tsim:" + title + "\t" + genres + "\t" + str(sim_score))
 
 
-def debug_recom_result(recom_result, item_info):
+def debug_recom_result(recom_result: Dict, item_info: Dict) -> None:
     """
         测试推荐结果
     Args:
@@ -141,7 +142,7 @@ def debug_recom_result(recom_result, item_info):
     if user_id not in recom_result:
         print("invalid result")
         return
-    for recom in sorted(recom_result[user_id].iteritems(), key=operator.itemgetter(1), reverse=True):
+    for recom in sorted(recom_result[user_id].items(), key=operator.itemgetter(1), reverse=True):
         item_id, score = recom
         if item_id not in item_info:
             continue

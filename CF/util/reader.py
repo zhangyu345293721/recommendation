@@ -2,12 +2,13 @@
 """
 读取文件
 author:zhangyu
+email:zhangyuyu417@gmail.com
 """
 import os
 from typing import Tuple, Dict
 
 
-def get_user_click(rating_file: str) -> Dict:
+def get_user_click(rating_file: str) -> Tuple[Dict, Dict]:
     """
         获取用户点击链表
     Args:
@@ -18,12 +19,12 @@ def get_user_click(rating_file: str) -> Dict:
     if not os.path.exists(rating_file):
         return {}, {}
     fp = open(rating_file)
-    num = 0
+    line_num = 0
     user_click = {}
     user_click_time = {}
     for line in fp:
-        if num == 0:
-            num += 1
+        if line_num == 0:
+            line_num += 1
             continue
         item = line.strip().split(',')
         if len(item) < 4:

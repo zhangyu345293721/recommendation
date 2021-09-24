@@ -6,6 +6,7 @@ email:zhangyuyu417@gmail.com
 """
 from __future__ import division
 import sys
+from typing import Dict
 
 sys.path.append("../util")
 import CF.util.reader as reader
@@ -13,13 +14,13 @@ import math
 import operator
 
 
-def transfer_user_click(user_click):
+def transfer_user_click(user_click: Dict) -> Dict:
     """
         获取用户点击的商品
     Args:
-        user_click: key userid, value:[itemid1, itemid2]
+        user_click: key user_id, value:[item_id1, item_id2]
     Return:
-        dict, key itemid value:[userid1, userid2]
+        dict, key item_id value:[user_id1, user_id2]
     """
     item_click_by_user = {}
     for user in user_click:
@@ -37,7 +38,7 @@ def base_contribution_score():
     return 1
 
 
-def update_contribution_score(item_user_click_count):
+def update_contribution_score(item_user_click_count: int) -> float:
     """
             更新分数
     Args:
@@ -48,7 +49,7 @@ def update_contribution_score(item_user_click_count):
     return 1 / math.log10(1 + item_user_click_count)
 
 
-def update_two_contribution_score(click_time_one, click_time_two):
+def update_two_contribution_score(click_time_one: int, click_time_two: int) -> float:
     """
         更新分数2
     Args:
@@ -63,7 +64,7 @@ def update_two_contribution_score(click_time_one, click_time_two):
     return 1 / (1 + delta_time)
 
 
-def cal_user_sim(item_click_by_user, user_click_time):
+def cal_user_sim(item_click_by_user: Dict, user_click_time: Dict) -> Dict:
     """
         获取具体信息
     Args:
@@ -103,12 +104,11 @@ def cal_user_sim(item_click_by_user, user_click_time):
             user_sim_info[user_i].setdefault(user_j, 0)
             user_sim_info[user_i][user_j] = cotime / math.sqrt(user_click_count[user_i] * user_click_count[user_j])
     for user in user_sim_info:
-        user_sim_info_sorted[user] = sorted(user_sim_info[user].iteritems(), key=
-        operator.itemgetter(1), reverse=True)
+        user_sim_info_sorted[user] = sorted(user_sim_info[user].items(), key=operator.itemgetter(1), reverse=True)
     return user_sim_info_sorted
 
 
-def cal_recom_result(user_click, user_sim):
+def cal_recom_result(user_click: Dict, user_sim: Dict) -> Dict:
     """
          基于用户推荐结果
     Args:
@@ -118,39 +118,39 @@ def cal_recom_result(user_click, user_sim):
          字典：商品id
     """
     recom_result = {}
-    topk_user = 3
+    top_k_user = 3
     item_num = 5
     for user, item_list in user_click.items():
         tmp_dict = {}
-        for itemid in item_list:
-            tmp_dict.setdefault(itemid, 1)
+        for item_id in item_list:
+            tmp_dict.setdefault(item_id, 1)
         recom_result.setdefault(user, {})
-        for zuhe in user_sim[user][:topk_user]:
-            userid_j, sim_score = zuhe
-            if userid_j not in user_click:
+        for user in user_sim[user][:top_k_user]:
+            user_id_j, sim_score = user
+            if user_id_j not in user_click:
                 continue
-            for itemid_j in user_click[userid_j][:item_num]:
-                recom_result[user].setdefault(itemid_j, sim_score)
+            for item_id_j in user_click[user_id_j][:item_num]:
+                recom_result[user].setdefault(item_id_j, sim_score)
     return recom_result
 
 
-def debug_user_sim(user_sim):
+def debug_user_sim(user_sim: Dict) -> None:
     """
         打印用户结果
     Args:
         user_sim: 用户id和分数
     """
-    topk = 5
+    top_k = 5
     fix_user = "1"
     if fix_user not in user_sim:
         print("invalid user")
         return
-    for zuhe in user_sim[fix_user][:topk]:
-        userid, score = zuhe
-        print(fix_user + "\tsim_user" + userid + "\t" + str(score))
+    for user in user_sim[fix_user][:top_k]:
+        user_id, score = user
+        print(fix_user + "\tsim_user" + user_id + "\t" + str(score))
 
 
-def debug_recom_result(item_info, recom_result):
+def debug_recom_result(item_info: Dict, recom_result: Dict) -> None:
     """
         测试用户结果
     Args:
@@ -161,14 +161,14 @@ def debug_recom_result(item_info, recom_result):
     if fix_user not in recom_result:
         print("invalid user for recoming result")
         return
-    for itemid in recom_result["1"]:
-        if itemid not in item_info:
+    for item_id in recom_result["1"]:
+        if item_id not in item_info:
             continue
-        recom_score = recom_result["1"][itemid]
-        print("recom_result:" + ",".join(item_info[itemid]) + "\t" + str(recom_score))
+        recom_score = recom_result["1"][item_id]
+        print("recom_result:" + ",".join(item_info[item_id]) + "\t" + str(recom_score))
 
 
-def main_flow():
+def main_flow() -> Dict:
     """
         主方法
     """
