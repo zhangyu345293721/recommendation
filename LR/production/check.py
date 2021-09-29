@@ -85,7 +85,7 @@ def get_auc(predict_list, test_label):
     print("auc:%.5f" % (auc_score))
 
 
-def get_accuary(predict_list, test_label):
+def get_accuracy(predict_list, test_label):
     """
     Args:
         predict_list: 测试链表
@@ -102,8 +102,8 @@ def get_accuary(predict_list, test_label):
         if predict_label == test_label[index]:
             right_num += 1
     total_num = len(predict_list)
-    accuary_score = right_num / total_num
-    print("accuary:%.5f" % (accuary_score))
+    accuracy_score = right_num / total_num
+    print("accuracy_score:%.5f" % (accuracy_score))
 
 
 def run_check_core(test_feature, test_label, model, score_func):
@@ -116,7 +116,7 @@ def run_check_core(test_feature, test_label, model, score_func):
     """
     predict_list = score_func(test_feature, model)
     get_auc(predict_list, test_label)
-    get_accuary(predict_list, test_label)
+    get_accuracy(predict_list, test_label)
 
 
 def run_check(test_file, lr_coef_file, lr_model_file, feature_num_file):

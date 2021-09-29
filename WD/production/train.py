@@ -180,11 +180,11 @@ def get_test_label(test_file):
     if not os.path.exists(test_file):
         return []
     fp = open(test_file)
-    linenum = 0
+    line_num = 0
     test_label_list = []
     for line in fp:
-        if linenum == 0:
-            linenum += 1
+        if line_num == 0:
+            line_num += 1
             continue
         if "?" in line.strip():
             continue

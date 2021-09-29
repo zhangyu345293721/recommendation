@@ -1,4 +1,3 @@
-# -*-coding:utf8-*-
 """
 author:zhangyu
 email:zhangyuyu417@gmail.com
@@ -47,7 +46,7 @@ def lfm_train(train_data: List[List[object]], F: int, alpha: float, beta: float,
     return user_vec, item_vec
 
 
-def init_model(vector_len: int):
+def init_model(vector_len: int) -> np.ndarray:
     """
     Args:
         vector_len: 向量长度
@@ -57,7 +56,7 @@ def init_model(vector_len: int):
     return np.random.randn(vector_len)
 
 
-def model_predict(user_vector, item_vector):
+def model_predict(user_vector: Dict, item_vector: Dict) -> float:
     """
     user_vector and item_vector distance
     Args:
@@ -111,7 +110,7 @@ def give_recom_result(user_vec: List[str], item_vec: List[str], user_id: str) ->
     return recom_list
 
 
-def ana_recom_result(train_data, user_id: str, recom_list) -> List[List[str]]:
+def ana_recom_result(train_data: List[List[object]], user_id: str, recom_list: List[List[str]]) -> List[List[str]]:
     """
         测试结果
     Args:
@@ -137,6 +136,7 @@ def ana_recom_result(train_data, user_id: str, recom_list) -> List[List[str]]:
 
 
 if __name__ == "__main__":
+    # print(type(np.random.randn(10)))
     start_time = time.time()
     res = model_train_process()
     for r in res:
