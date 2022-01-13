@@ -10,4 +10,4 @@
 - PR personal rank  个性排名
 - Tree  决策树
 - WD    排序模型    Wide And Deep
-- MMOE  多目标推荐算法    MMOE
+- MMOE  多目标推荐算法   MMOE
