@@ -1,4 +1,4 @@
-#   Recommendation Aglorithm
+#   Recommendation  Aglorithm
   
 - CF      
      1)  协同过滤算法   
